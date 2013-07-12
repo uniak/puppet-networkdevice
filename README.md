@@ -169,6 +169,6 @@ Note: If you want to see the Communication with the Switch append --debug
 
 ## Who ?
 
-* Markus Burger <markus.burger@uni-ak.ac.at>
-* Nicole Nagele <nicole.nagele@uni-ak.ac.at>
-* David Schmitt <david@dasz.at>
+* Markus Burger <markus.burger at uni-ak.ac.at>
+* Nicole Nagele <nicole.nagele at uni-ak.ac.at>
+* David Schmitt <david at dasz.at>
