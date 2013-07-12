@@ -42,7 +42,7 @@ Example device.conf
     type cisco_ios
     url sshios://$user:$pass@$switch_fqdn:$ssh_port/?$flags
 
-Exmaple Manifest
+Example Manifest
 
     cisco_config {
       'running:'
