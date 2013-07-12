@@ -1,0 +1,20 @@
+---
+hardwaremodel: WS-C3750G-24TS-1U
+processor: PowerPC405
+hardwarerevision: H0
+memorysize: 131072K
+hostname: vz-2z
+uptime: 9 weeks, 3 days, 9 hours, 54 minutes
+uptime_seconds: 5738040
+uptime_days: 66
+operatingsystem: IOS
+operatingsystemplatform: C3750
+operatingsystemfeature: IPBASEK9
+operatingsystemrelease: 12.2(55)SE5
+operatingsystemmajrelease: 12.2SE
+system_image: c3750-ipbasek9-mz.122-55.SE5.bin
+canonicalized_hardwaremodel: c3750
+configuration_register: "0xF"
+gigabit_ethernet: "56"
+processor_board_id: "FOC1506Z0V7"
+virtual_ethernet: "2"

@@ -1,0 +1,6 @@
+---
+interfaces_vlan_1: "1"
+interfaces_vlan_100: "1"
+interfaces_vlan_1100: "1"
+interfaces_fastethernet_2: "24"
+interfaces_gigabitethernet_2: "2"

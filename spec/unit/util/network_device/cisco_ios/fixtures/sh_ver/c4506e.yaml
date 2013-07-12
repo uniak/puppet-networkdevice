@@ -1,0 +1,27 @@
+---
+hardwaremodel: WS-C4506-E
+processor: MPC8572
+hardwarerevision: "10"
+memorysize: 2097152K
+hostname: ok-0k
+uptime: 2 weeks, 6 days, 12 hours, 6 minutes
+uptime_seconds: 1771560
+uptime_days: 20
+operatingsystem: IOS
+operatingsystemplatform: IOS-XE
+operatingsystemxeplatform: "4500"
+operatingsystemfeature: UNIVERSALK9
+operatingsystemrelease: 03.04.00.SG
+operatingsystemmajrelease: 03.04.00.SG
+system_image: bootflash:cat4500e-universalk9.SPA.03.04.00.SG.151-2.SG.bin
+canonicalized_hardwaremodel: c4500
+jawa_revision: "7"
+license_level: entservices
+license_type: Permanent
+rom: 15.0(1r)SG7
+snowtrooper_revision: "0x0.0x1C"
+gigabit_ethernet: "198"
+virtual_ethernet: "24"
+ten_gigabit_ethernet: "4"
+processor_board_id: FOX1413GU3F
+configuration_register: "0x2102"

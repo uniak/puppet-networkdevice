@@ -1,0 +1,9 @@
+---
+inventory_1_descr: "WS-C3750G-24PS"
+inventory_1_pid: "WS-C3750G-24PS-S"
+inventory_1_vid: "V06"
+inventory_1_sn: "FOC1414Z5KZ"
+inventory_gigabitethernet1_0_25_descr: "1000BaseSX SFP"
+inventory_gigabitethernet1_0_25_pid: "Unspecified"
+inventory_gigabitethernet1_0_25_vid:
+inventory_gigabitethernet1_0_25_sn: "FNS141409NU"

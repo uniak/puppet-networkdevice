@@ -1,0 +1,61 @@
+Cisco IOS Software, IOS-XE Software, Catalyst 4500 L3 Switch Software (cat4500e-UNIVERSALK9-M), Version 03.04.00.SG RELEASE SOFTWARE (fc3)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2012 by Cisco Systems, Inc.
+Compiled Wed 05-Dec-12 04:38 by prod_rel_team
+
+
+
+Cisco IOS-XE software, Copyright (c) 2005-2010, 2012 by cisco Systems, Inc.
+All rights reserved.  Certain components of Cisco IOS-XE software are
+licensed under the GNU General Public License ("GPL") Version 2.0.  The
+software code licensed under GPL Version 2.0 is free software that comes
+with ABSOLUTELY NO WARRANTY.  You can redistribute and/or modify such
+GPL code under the terms of GPL Version 2.0.  For more details, see the
+documentation or "License Notice" file accompanying the IOS-XE software,
+or the applicable URL provided on the flyer accompanying the IOS-XE
+software.
+
+
+
+ROM: 15.0(1r)SG7
+ok-0k uptime is 2 weeks, 6 days, 12 hours, 6 minutes
+System returned to ROM by reload
+System restarted at 21:50:26 MET Tue Jan 29 2013
+System image file is "bootflash:cat4500e-universalk9.SPA.03.04.00.SG.151-2.SG.bin"
+Jawa Revision 7, Snowtrooper Revision 0x0.0x1C
+
+Last reload reason: Reload command
+
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+
+License Information for 'WS-X45-SUP7-E'
+    License Level: entservices   Type: Permanent
+    Next reboot license Level: entservices
+
+cisco WS-C4506-E (MPC8572) processor (revision 10) with 2097152K/20480K bytes of memory.
+Processor board ID FOX1413GU3F
+MPC8572 CPU at 1.5GHz, Supervisor 7
+Last reset from Reload
+24 Virtual Ethernet interfaces
+198 Gigabit Ethernet interfaces
+4 Ten Gigabit Ethernet interfaces
+511K bytes of non-volatile configuration memory.
+
+Configuration register is 0x2102
+

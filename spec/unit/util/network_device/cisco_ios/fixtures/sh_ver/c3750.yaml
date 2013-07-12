@@ -1,0 +1,21 @@
+---
+system_image: c3750-ipbasek9-mz.122-55.SE6.bin
+operatingsystem: IOS
+operatingsystemplatform: C3750
+operatingsystemrelease: 12.2(55)SE6
+operatingsystemmajrelease: 12.2SE
+operatingsystemfeature: IPBASEK9
+hardwaremodel: WS-C3750-24TS
+hardwarerevision: K0
+hostname: switch-c3750
+memorysize: 131072K
+processor: PowerPC405
+uptime: "6 weeks, 3 days, 22 hours, 13 minutes"
+uptime_days: 45
+uptime_seconds: 3967980
+canonicalized_hardwaremodel: c3750
+configuration_register: "0xF"
+processor_board_id: "CAT0931N2SA"
+gigabit_ethernet: "2"
+fast_ethernet: "24"
+virtual_ethernet: "3"

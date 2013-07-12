@@ -1,0 +1,61 @@
+NAME: "Switch System", DESCR: "Cisco Systems, Inc. WS-C4506-E 6 slot switch "
+PID: WS-C4506-E        , VID: V02  , SN: FOX1413GU3F
+
+NAME: "Supervisor(slot 1)", DESCR: "Sup 7-E 10GE (SFP+), 1000BaseX (SFP) with 4 SFP+ Ports"
+PID: WS-X45-SUP7-E     , VID: V04  , SN: CAT1619L0FB
+
+NAME: "TenGigabitEthernet1/1", DESCR: "1000BaseSX"
+PID: Unspecified       , VID:      , SN: FNS141411VV
+
+NAME: "TenGigabitEthernet1/2", DESCR: "1000BaseSX"
+PID: Unspecified       , VID:      , SN: FNS15221UQB
+
+NAME: "TenGigabitEthernet1/3", DESCR: "1000BaseLH"
+PID: Unspecified       , VID:      , SN: ASG13D00254
+
+NAME: "TenGigabitEthernet1/4", DESCR: "1000BaseSX"
+PID: Unspecified       , VID:      , SN: FNS15221U9L
+
+NAME: "Linecard(slot 2)", DESCR: "1000BaseX (GBIC) with 6 1000 GBIC ports"
+PID: WS-X4306-GB       , VID: V11  , SN: JAE1128Q6MQ
+
+NAME: "GigabitEthernet2/1", DESCR: "CWDM-1590"
+PID: Unspecified       , VID:      , SN: KMF006D    
+
+NAME: "GigabitEthernet2/2", DESCR: "1000BaseSX"
+PID: Unspecified       , VID:      , SN: AGM1122BP2M
+
+NAME: "GigabitEthernet2/3", DESCR: "1000BaseLH"
+PID: Unspecified       , VID:      , SN: A57018219  
+
+NAME: "GigabitEthernet2/4", DESCR: "CWDM-1490"
+PID: Unspecified       , VID:      , SN: KES00HZ    
+
+NAME: "GigabitEthernet2/5", DESCR: "1000BaseSX"
+PID: Unspecified       , VID:      , SN: 0703111902376217
+
+NAME: "GigabitEthernet2/6", DESCR: "CWDM-1470"
+PID: Unspecified       , VID:      , SN: KGS01CK    
+
+NAME: "Linecard(slot 3)", DESCR: "10/100/1000BaseT (RJ45) with 48 10/100/1000 baseT ports"
+PID: WS-X4548-GB-RJ45  , VID: V05  , SN: JAE1133TXF4
+
+NAME: "Linecard(slot 4)", DESCR: "10/100/1000BaseT (RJ45) with 48 10/100/1000 baseT ports"
+PID: WS-X4548-GB-RJ45  , VID: V05  , SN: JAE1133TXFO
+
+NAME: "Linecard(slot 5)", DESCR: "10/100/1000BaseT (RJ45) with 48 10/100/1000 baseT ports"
+PID: WS-X4548-GB-RJ45  , VID: V05  , SN: JAE1133TZ8B
+
+NAME: "Linecard(slot 6)", DESCR: "10/100/1000BaseT (RJ45)V with 48 10/100/1000 baseT voice power ports (Cisco/IEEE)"
+PID: WS-X4548-GB-RJ45V , VID: V08  , SN: JAE1130RL92
+
+NAME: "FanTray 1", DESCR: "FanTray"
+PID: WS-X4596-E        , VID: V03  , SN: FOX1413H1ZE
+
+NAME: "Power Supply 1", DESCR: "Power Supply ( AC 2800W )"
+PID: PWR-C45-2800ACV   , VID: V05  , SN: SNI1414A35G
+
+NAME: "Power Supply 2", DESCR: "Power Supply ( AC 2800W )"
+PID: PWR-C45-2800ACV   , VID: V05  , SN: SNI1415A304
+
+
