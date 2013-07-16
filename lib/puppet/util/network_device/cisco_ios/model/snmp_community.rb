@@ -43,15 +43,6 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Model::Snmp_community < Puppet::Ut
     after_update
   end
 
-  def perform_update
-    case @params[:ensure].value
-    when :present
-      transport.command(construct_cmd)
-    when :absent
-      transport.command("no " + construct_cmd)
-    end
-  end
-
   def get_base_cmd
     raise ArgumentError, "Base Command not set for #{self.class}" if base_cmd.nil?
     ERB.new(base_cmd).result(binding)

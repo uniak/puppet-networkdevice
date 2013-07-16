@@ -50,15 +50,6 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Model::Snmp_host < Puppet::Util::N
     is[:ensure] == :present && should[:ensure] == :present
   end
 
-  def perform_update
-    case @params[:ensure].value
-    when :present
-      transport.command(construct_cmd)
-    when :absent
-      transport.command("no " + construct_cmd)
-    end
-  end
-
   def mod_path_base
     return 'puppet/util/network_device/cisco_ios/model/snmp_host'
   end
