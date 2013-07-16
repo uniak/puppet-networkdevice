@@ -23,6 +23,14 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
     end
   end
 
+  def self.register_model(base, param, klass, match_re, fetch_cmd)
+    base.register_param param, Puppet::Util::NetworkDevice::Cisco_ios::Model::ModelValue do
+      model klass
+      match match_re
+      cmd fetch_cmd
+    end
+  end
+
   def self.register(base)
     self.register_simple(base, :hostname, /^hostname\s+(\S+)$/, 'sh run', 'hostname')
 
@@ -286,35 +294,15 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
 
     self.register_simple(base, :errdisable_recovery_interval, /^errdisable recovery interval (\d+)\s*$/, 'sh run', 'errdisable recovery interval')
 
-    base.register_param :interfaces, Puppet::Util::NetworkDevice::Cisco_ios::Model::ModelValue do
-      model Puppet::Util::NetworkDevice::Cisco_ios::Model::Interface
-      match /^interface\s+(\S+)$/
-      cmd 'sh run'
-    end
+    self.register_model(base, :interfaces, Puppet::Util::NetworkDevice::Cisco_ios::Model::Interface, /^interface\s+(\S+)$/, 'sh run')
 
-    base.register_param :aaa_groups, Puppet::Util::NetworkDevice::Cisco_ios::Model::ModelValue do
-      model Puppet::Util::NetworkDevice::Cisco_ios::Model::Aaa_group
-      match /^aaa group server (?:radius|tacacs\+)\s+(\S+)$/
-      cmd 'sh run'
-    end
+    self.register_model(base, :aaa_groups, Puppet::Util::NetworkDevice::Cisco_ios::Model::Aaa_group, /^aaa group server (?:radius|tacacs\+)\s+(\S+)$/, 'sh run')
 
-    base.register_param :acl, Puppet::Util::NetworkDevice::Cisco_ios::Model::ModelValue do
-      model Puppet::Util::NetworkDevice::Cisco_ios::Model::Acl
-      match /^ip access-list (?:standard|extended)\s+(\S+)$/
-      cmd 'sh run'
-    end
+    self.register_model(base, :acl, Puppet::Util::NetworkDevice::Cisco_ios::Model::Acl, /^ip access-list (?:standard|extended)\s+(\S+)$/, 'sh run')
 
-    base.register_param :radius_server, Puppet::Util::NetworkDevice::Cisco_ios::Model::ModelValue do
-      model Puppet::Util::NetworkDevice::Cisco_ios::Model::RadiusServer
-      match /^radius-server\s+host\s+(\S+)/
-      cmd 'sh run'
-    end
+    self.register_model(base, :radius_server, Puppet::Util::NetworkDevice::Cisco_ios::Model::RadiusServer, /^radius-server\s+host\s+(\S+)/, 'sh run')
 
-    base.register_param :user, Puppet::Util::NetworkDevice::Cisco_ios::Model::ModelValue do
-      model Puppet::Util::NetworkDevice::Cisco_ios::Model::User
-      match /^username\s+(\S+)/
-      cmd 'sh run'
-    end
+    self.register_model(base, :user, Puppet::Util::NetworkDevice::Cisco_ios::Model::User, /^username\s+(\S+)/, 'sh run')
 
     base.register_param :lines, Puppet::Util::NetworkDevice::Cisco_ios::Model::ModelValue do
       model Puppet::Util::NetworkDevice::Cisco_ios::Model::Line
@@ -339,23 +327,11 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
       cmd 'sh run'
     end
 
-    base.register_param :snmp_communities, Puppet::Util::NetworkDevice::Cisco_ios::Model::ModelValue do
-      model Puppet::Util::NetworkDevice::Cisco_ios::Model::SnmpCommunity
-      match /^snmp-server\scommunity\s+(\S+)/
-      cmd 'sh run'
-    end
+    self.register_model(base, :snmp_communities, Puppet::Util::NetworkDevice::Cisco_ios::Model::SnmpCommunity, /^snmp-server\scommunity\s+(\S+)/, 'sh run')
 
-    base.register_param :snmp_hosts, Puppet::Util::NetworkDevice::Cisco_ios::Model::ModelValue do
-      model Puppet::Util::NetworkDevice::Cisco_ios::Model::SnmpHost
-      match /^snmp-server\shost\s+(\S+)/
-      cmd 'sh run'
-    end
+    self.register_model(base, :snmp_hosts, Puppet::Util::NetworkDevice::Cisco_ios::Model::SnmpHost, /^snmp-server\shost\s+(\S+)/, 'sh run')
 
-    base.register_param :vlan, Puppet::Util::NetworkDevice::Cisco_ios::Model::ModelValue do
-      model Puppet::Util::NetworkDevice::Cisco_ios::Model::Vlan
-      match /^(\d+)\s\S+/
-      cmd 'sh vlan brief'
-    end
+    self.register_model(base, :vlan, Puppet::Util::NetworkDevice::Cisco_ios::Model::Vlan, /^(\d+)\s\S+/, 'sh vlan brief')
 
     if base.facts && base.facts['canonicalized_hardwaremodel'] == 'c4500'
       base.register_new_module('c4500', 'hardware')
