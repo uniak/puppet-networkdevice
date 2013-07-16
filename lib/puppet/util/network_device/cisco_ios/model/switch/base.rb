@@ -10,29 +10,23 @@ require 'puppet/util/network_device/cisco_ios/model/model_value'
 require 'puppet/util/network_device/cisco_ios/model/switch'
 
 module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
-  def self.register(base)
-
-    base.register_param :hostname do
-      match /^hostname\s+(\S+)$/
-      cmd 'sh run'
+  def self.register_simple(base, param, match_re, fetch_cmd, cmd)
+    base.register_param param do
+      match match_re
+      cmd fetch_cmd
       add  do |transport, value|
-        transport.command("hostname #{value}")
+        transport.command("#{cmd} #{value}")
       end
       remove do |transport, old_value|
-        transport.command("no hostname #{old_value}")
+        transport.command("no #{cmd} #{old_value}")
       end
     end
+  end
 
-    base.register_param :ip_domain_name do
-      match /^ip\s+domain-name\s+(\S+)$/
-      cmd 'sh run'
-      add do |transport, value|
-        transport.command("ip domain-name #{value}")
-      end
-      remove do |transport, old_value|
-        transport.command("no ip domain-name #{old_value}")
-      end
-    end
+  def self.register(base)
+    self.register_simple(base, :hostname, /^hostname\s+(\S+)$/, 'sh run', 'hostname')
+
+    self.register_simple(base, :ip_domain_name, /^ip\s+domain-name\s+(\S+)$/, 'sh run', 'ip domain-name')
 
     base.register_param :ntp_servers do
       match do |txt|
@@ -64,27 +58,9 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
 
     # MET 1 0 vs. MET 1
     # in conf t vs sh run
-    base.register_param :clock_timezone do
-      match /^clock\s+timezone\s+(.+)$/
-      cmd 'sh run'
-      add do |transport, value|
-        transport.command("clock timezone #{value}")
-      end
-      remove do |transport, old_value|
-        transport.command("no clock timezone #{old_value}")
-      end
-    end
+    self.register_simple(base, :clock_timezone, /^clock\s+timezone\s+(.+)$/, 'sh run', 'clock timezone')
 
-    base.register_param :system_mtu_routing do
-      match /^system\s+mtu\s+routing\s+(\d+)$/
-      cmd 'sh run'
-      add do |transport, value|
-        transport.command("system mtu routing #{value}")
-      end
-      remove do |transport, old_value|
-        transport.command("no system mtu routing #{old_value}")
-      end
-    end
+    self.register_simple(base, :system_mtu_routing, /^system\s+mtu\s+routing\s+(\d+)$/, 'sh run', 'system mtu routing')
 
     base.register_param :ip_classless do
       match do |txt|
@@ -121,16 +97,7 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
       end
     end
 
-    base.register_param :ip_domain_lookup_source_interface do
-      match /^ip\s+domain-lookup\s+source-interface\s+(\S+)$/
-      cmd 'sh run'
-      add do |transport, value|
-        transport.command("ip domain-lookup source-interface #{value}")
-      end
-      remove do |transport, old_value|
-        transport.command("no ip domain-lookup source-interface #{old_value}")
-      end
-    end
+    self.register_simple(base, :ip_domain_lookup_source_interface, /^ip\s+domain-lookup\s+source-interface\s+(\S+)$/, 'sh run', 'ip domain-lookup source-interface')
 
     base.register_param :ip_name_servers do
       match do |txt|
@@ -147,39 +114,9 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
       end
     end
 
-    base.register_param :ip_radius_source_interface do
-      match /^ip\s+radius\s+source-interface\s+(\S+)\s?$/
-      cmd 'sh run'
-      add do |transport, value|
-        transport.command("ip radius source-interface #{value}")
-      end
-      remove do |transport, old_value|
-        transport.command("no ip radius source-interface #{old_value}")
-      end
-    end
-
-    base.register_param :logging_trap do
-      match /^logging\s+trap\s+(\S+)$/
-      cmd 'sh run'
-      add do |transport, value|
-        transport.command("logging trap #{value}")
-      end
-      remove do |transport, old_value|
-        transport.command("no logging trap #{old_value}")
-      end
-    end
-
-    base.register_param :logging_facility do
-      match /^logging\s+facility\s+(\S+)$/
-      cmd 'sh run'
-      add do |transport, value|
-        transport.command("logging facility #{value}")
-      end
-      remove do |transport, old_value|
-        transport.command("no logging facility #{old_value}")
-      end
-    end
-
+    self.register_simple(base, :ip_radius_source_interface, /^ip\s+radius\s+source-interface\s+(\S+)\s?$/, 'sh run', 'ip radius source-interface')
+    self.register_simple(base, :logging_trap, /^logging\s+trap\s+(\S+)$/, 'sh run', 'logging trap')
+    self.register_simple(base, :logging_facility, /^logging\s+facility\s+(\S+)$/, 'sh run', 'logging facility')
 
     base.register_param :ip_default_gateway do
       match do |txt|
@@ -199,17 +136,8 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
       end
     end
 
-    # TODO: Seperated Type
-    base.register_param :vtp_version do
-      match /^VTP\sversion\srunning\s+:\s+(\d)$/
-      cmd 'sh vtp status'
-      add do |transport, value|
-        transport.command("vtp version #{value}")
-      end
-      remove do |transport, old_value|
-        transport.command("no vtp version #{old_value}")
-      end
-    end
+    # TODO: Separate Type for vtp properties?
+    self.register_simple(base, :vtp_version, /^VTP\sversion\srunning\s+:\s+(\d)$/, 'sh vtp status', 'vtp version')
 
     base.register_param :vtp_domain do
       match /^VTP\sDomain\sName\s+:\s+(\S+)$/
@@ -236,18 +164,9 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
       end
     end
 
-    base.register_param :vtp_password do
-      match /^VTP\sPassword:\s+(\S+)$/
-      cmd 'sh vtp password'
-      add do |transport, value|
-        transport.command("vtp password #{value}")
-      end
-      remove do |transport, _|
-        transport.command("no vtp password")
-      end
-    end
+    self.register_simple(base, :vtp_password, /^VTP\sPassword:\s+(\S+)$/, 'sh vtp password', 'vtp password')
 
-    # TODO: Seperate Type
+    # TODO: Separate Type for dhcp properties?
     base.register_param :ip_dhcp_snooping do
       match do |txt|
         if txt.match(/^ip\sdhcp\ssnooping$/)
@@ -265,16 +184,7 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
       end
     end
 
-    base.register_param :ip_dhcp_snooping_vlans do
-      match /^ip\sdhcp\ssnooping\svlan\s(\S+)$/
-      cmd 'sh run'
-      add do |transport, value|
-        transport.command("ip dhcp snooping vlan #{value}")
-      end
-      remove do |transport, old_value|
-        transport.command("no ip dhcp snooping vlan #{old_value}")
-      end
-    end
+    self.register_simple(base, :ip_dhcp_snooping_vlans, /^ip\sdhcp\ssnooping\svlan\s(\S+)$/, 'sh run', 'ip dhcp snooping vlan')
 
     base.register_param :ip_dhcp_snooping_remote_id do
       match(lambda do |txt|
@@ -291,16 +201,7 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
       end
     end
 
-    base.register_param :ip_dhcp_relay_information do
-      match /^ip\sdhcp\srelay\sinformation\s(.+)$/
-      cmd 'sh run'
-      add do |transport, value|
-        transport.command("ip dhcp relay information #{value}")
-      end
-      remove do |transport, old_value|
-        transport.command("ip dhcp relay information #{old_value}")
-      end
-    end
+    self.register_simple(base, :ip_dhcp_relay_information, /^ip\sdhcp\srelay\sinformation\s(.+)$/, 'sh run', 'ip dhcp relay information')
 
     base.register_param :password_encryption do
       match do |txt|
@@ -383,16 +284,7 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
       end
     end
 
-    base.register_param :errdisable_recovery_interval do
-      match /^errdisable recovery interval (\d+)\s*$/
-      cmd 'sh run'
-      add do |transport, value|
-        transport.command("errdisable recovery interval #{value}")
-      end
-      remove do |transport, old_value|
-        transport.command("no errdisable recovery interval #{old_value}")
-      end
-    end
+    self.register_simple(base, :errdisable_recovery_interval, /^errdisable recovery interval (\d+)\s*$/, 'sh run', 'errdisable recovery interval')
 
     base.register_param :interfaces, Puppet::Util::NetworkDevice::Cisco_ios::Model::ModelValue do
       model Puppet::Util::NetworkDevice::Cisco_ios::Model::Interface
