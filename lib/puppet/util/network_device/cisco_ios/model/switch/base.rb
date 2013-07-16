@@ -10,98 +10,37 @@ require 'puppet/util/network_device/cisco_ios/model/model_value'
 require 'puppet/util/network_device/cisco_ios/model/switch'
 
 module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
-  # register a simple param using the specified regexp and commands
-  def self.register_simple(base, param, match_re, fetch_cmd, cmd)
-    base.register_param param do
-      match match_re
-      cmd fetch_cmd
-      add  do |transport, value|
-        transport.command("#{cmd} #{value}")
-      end
-      remove do |transport, old_value|
-        transport.command("no #{cmd} #{old_value}")
-      end
-    end
-  end
-
-  # register a model based param
-  def self.register_model(base, param, klass, match_re, fetch_cmd)
-    base.register_param param, Puppet::Util::NetworkDevice::Cisco_ios::Model::ModelValue do
-      model klass
-      match match_re
-      cmd fetch_cmd
-    end
-  end
-
-  # register a simple yes/no param. the regexp must match if the param is present
-  def self.register_bool(base, param, match_re, fetch_cmd, cmd)
-    base.register_param param do
-      match do |txt|
-        txt.match(match_re)
-        if $1 == 'no'
-          :absent
-        else
-          :present
-        end
-      end
-      cmd fetch_cmd
-      add do |transport, _|
-        transport.command(cmd)
-      end
-      remove do |transport, _|
-        transport.command("no #{cmd}")
-      end
-    end
-  end
-
-  # register a simple array-valued param
-  # transform the array using a block if necessary
-  def self.register_array(base, param, match_re, fetch_cmd, cmd, &block)
-    base.register_param param do
-      match do |txt|
-        result = txt.scan(match_re).flatten
-        yield result if block_given?
-      end
-      cmd fetch_cmd
-      add do |transport, value|
-        transport.command("#{cmd} #{value}")
-      end
-      remove do |transport, old_value|
-        transport.command("no #{cmd} #{old_value}")
-      end
-    end
-  end
 
   def self.register(base)
-    self.register_simple(base, :hostname, /^hostname\s+(\S+)$/, 'sh run', 'hostname')
+    base.register_simple(:hostname, /^hostname\s+(\S+)$/, 'sh run', 'hostname')
 
-    self.register_simple(base, :ip_domain_name, /^ip\s+domain-name\s+(\S+)$/, 'sh run', 'ip domain-name')
+    base.register_simple(:ip_domain_name, /^ip\s+domain-name\s+(\S+)$/, 'sh run', 'ip domain-name')
 
-    self.register_array(base, :ntp_servers, /^ntp\s+server\s+(\S+)$/, 'sh run', 'ntp server') do |values|
+    base.register_array(:ntp_servers, /^ntp\s+server\s+(\S+)$/, 'sh run', 'ntp server') do |values|
       values.select { |ip| IPAddr.new(ip) }
     end
 
-    self.register_array(base, :logging_servers, /^logging\s+(\S+)$/, 'sh run', 'logging')
+    base.register_array(:logging_servers, /^logging\s+(\S+)$/, 'sh run', 'logging')
 
     # MET 1 0 vs. MET 1
     # in conf t vs sh run
-    self.register_simple(base, :clock_timezone, /^clock\s+timezone\s+(.+)$/, 'sh run', 'clock timezone')
+    base.register_simple(:clock_timezone, /^clock\s+timezone\s+(.+)$/, 'sh run', 'clock timezone')
 
-    self.register_simple(base, :system_mtu_routing, /^system\s+mtu\s+routing\s+(\d+)$/, 'sh run', 'system mtu routing')
+    base.register_simple(:system_mtu_routing, /^system\s+mtu\s+routing\s+(\d+)$/, 'sh run', 'system mtu routing')
 
-    self.register_bool(base, :ip_classless, /^ip\s+classless$/, 'sh run', 'ip classless')
+    base.register_bool(:ip_classless, /^ip\s+classless$/, 'sh run', 'ip classless')
 
-    self.register_bool(base, :ip_domain_lookup, /^ip\s+domain-lookup$/, 'sh run', 'ip domain-lookup')
+    base.register_bool(:ip_domain_lookup, /^ip\s+domain-lookup$/, 'sh run', 'ip domain-lookup')
 
-    self.register_simple(base, :ip_domain_lookup_source_interface, /^ip\s+domain-lookup\s+source-interface\s+(\S+)$/, 'sh run', 'ip domain-lookup source-interface')
+    base.register_simple(:ip_domain_lookup_source_interface, /^ip\s+domain-lookup\s+source-interface\s+(\S+)$/, 'sh run', 'ip domain-lookup source-interface')
 
-    self.register_array(base, :ip_name_servers, /^ip\s+name-server\s+(\S+)$/, 'sh run', 'ip name-server') do |values|
+    base.register_array(:ip_name_servers, /^ip\s+name-server\s+(\S+)$/, 'sh run', 'ip name-server') do |values|
       values.select { |ip| IPAddr.new(ip) }
     end
 
-    self.register_simple(base, :ip_radius_source_interface, /^ip\s+radius\s+source-interface\s+(\S+)\s?$/, 'sh run', 'ip radius source-interface')
-    self.register_simple(base, :logging_trap, /^logging\s+trap\s+(\S+)$/, 'sh run', 'logging trap')
-    self.register_simple(base, :logging_facility, /^logging\s+facility\s+(\S+)$/, 'sh run', 'logging facility')
+    base.register_simple(:ip_radius_source_interface, /^ip\s+radius\s+source-interface\s+(\S+)\s?$/, 'sh run', 'ip radius source-interface')
+    base.register_simple(:logging_trap, /^logging\s+trap\s+(\S+)$/, 'sh run', 'logging trap')
+    base.register_simple(:logging_facility, /^logging\s+facility\s+(\S+)$/, 'sh run', 'logging facility')
 
     base.register_param :ip_default_gateway do
       match do |txt|
@@ -122,7 +61,7 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
     end
 
     # TODO: Separate Type for vtp properties?
-    self.register_simple(base, :vtp_version, /^VTP\sversion\srunning\s+:\s+(\d)$/, 'sh vtp status', 'vtp version')
+    base.register_simple(:vtp_version, /^VTP\sversion\srunning\s+:\s+(\d)$/, 'sh vtp status', 'vtp version')
 
     base.register_param :vtp_domain do
       match /^VTP\sDomain\sName\s+:\s+(\S+)$/
@@ -149,12 +88,12 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
       end
     end
 
-    self.register_simple(base, :vtp_password, /^VTP\sPassword:\s+(\S+)$/, 'sh vtp password', 'vtp password')
+    base.register_simple(:vtp_password, /^VTP\sPassword:\s+(\S+)$/, 'sh vtp password', 'vtp password')
 
     # TODO: Separate Type for dhcp properties?
-    self.register_bool(base, :ip_dhcp_snooping, /^ip\sdhcp\ssnooping$/, 'sh run', 'ip dhcp snooping')
+    base.register_bool(:ip_dhcp_snooping, /^ip\sdhcp\ssnooping$/, 'sh run', 'ip dhcp snooping')
 
-    self.register_simple(base, :ip_dhcp_snooping_vlans, /^ip\sdhcp\ssnooping\svlan\s(\S+)$/, 'sh run', 'ip dhcp snooping vlan')
+    base.register_simple(:ip_dhcp_snooping_vlans, /^ip\sdhcp\ssnooping\svlan\s(\S+)$/, 'sh run', 'ip dhcp snooping vlan')
 
     base.register_param :ip_dhcp_snooping_remote_id do
       match(lambda do |txt|
@@ -171,11 +110,11 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
       end
     end
 
-    self.register_simple(base, :ip_dhcp_relay_information, /^ip\sdhcp\srelay\sinformation\s(.+)$/, 'sh run', 'ip dhcp relay information')
+    base.register_simple(:ip_dhcp_relay_information, /^ip\sdhcp\srelay\sinformation\s(.+)$/, 'sh run', 'ip dhcp relay information')
 
-    self.register_bool(base, :password_encryption, /^service\s+password-encryption$/, 'sh run', 'service password-encryption')
+    base.register_bool(:password_encryption, /^service\s+password-encryption$/, 'sh run', 'service password-encryption')
 
-    self.register_bool(base, :aaa_new_model, /^aaa\s+new-model$$/, 'sh run', 'aaa new-model')
+    base.register_bool(:aaa_new_model, /^aaa\s+new-model$$/, 'sh run', 'aaa new-model')
 
     # TODO: Hardcode *sigh*
     base.register_param :ip_ssh do
@@ -222,17 +161,17 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
       end
     end
 
-    self.register_simple(base, :errdisable_recovery_interval, /^errdisable recovery interval (\d+)\s*$/, 'sh run', 'errdisable recovery interval')
+    base.register_simple(:errdisable_recovery_interval, /^errdisable recovery interval (\d+)\s*$/, 'sh run', 'errdisable recovery interval')
 
-    self.register_model(base, :interfaces, Puppet::Util::NetworkDevice::Cisco_ios::Model::Interface, /^interface\s+(\S+)$/, 'sh run')
+    base.register_model(:interfaces, Puppet::Util::NetworkDevice::Cisco_ios::Model::Interface, /^interface\s+(\S+)$/, 'sh run')
 
-    self.register_model(base, :aaa_groups, Puppet::Util::NetworkDevice::Cisco_ios::Model::Aaa_group, /^aaa group server (?:radius|tacacs\+)\s+(\S+)$/, 'sh run')
+    base.register_model(:aaa_groups, Puppet::Util::NetworkDevice::Cisco_ios::Model::Aaa_group, /^aaa group server (?:radius|tacacs\+)\s+(\S+)$/, 'sh run')
 
-    self.register_model(base, :acl, Puppet::Util::NetworkDevice::Cisco_ios::Model::Acl, /^ip access-list (?:standard|extended)\s+(\S+)$/, 'sh run')
+    base.register_model(:acl, Puppet::Util::NetworkDevice::Cisco_ios::Model::Acl, /^ip access-list (?:standard|extended)\s+(\S+)$/, 'sh run')
 
-    self.register_model(base, :radius_server, Puppet::Util::NetworkDevice::Cisco_ios::Model::Radius_server, /^radius-server\s+host\s+(\S+)/, 'sh run')
+    base.register_model(:radius_server, Puppet::Util::NetworkDevice::Cisco_ios::Model::Radius_server, /^radius-server\s+host\s+(\S+)/, 'sh run')
 
-    self.register_model(base, :user, Puppet::Util::NetworkDevice::Cisco_ios::Model::User, /^username\s+(\S+)/, 'sh run')
+    base.register_model(:user, Puppet::Util::NetworkDevice::Cisco_ios::Model::User, /^username\s+(\S+)/, 'sh run')
 
     base.register_param :lines, Puppet::Util::NetworkDevice::Cisco_ios::Model::ModelValue do
       model Puppet::Util::NetworkDevice::Cisco_ios::Model::Line
@@ -257,11 +196,11 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
       cmd 'sh run'
     end
 
-    self.register_model(base, :snmp_communities, Puppet::Util::NetworkDevice::Cisco_ios::Model::Snmp_community, /^snmp-server\scommunity\s+(\S+)/, 'sh run')
+    base.register_model(:snmp_communities, Puppet::Util::NetworkDevice::Cisco_ios::Model::Snmp_community, /^snmp-server\scommunity\s+(\S+)/, 'sh run')
 
-    self.register_model(base, :snmp_hosts, Puppet::Util::NetworkDevice::Cisco_ios::Model::Snmp_host, /^snmp-server\shost\s+(\S+)/, 'sh run')
+    base.register_model(:snmp_hosts, Puppet::Util::NetworkDevice::Cisco_ios::Model::Snmp_host, /^snmp-server\shost\s+(\S+)/, 'sh run')
 
-    self.register_model(base, :vlan, Puppet::Util::NetworkDevice::Cisco_ios::Model::Vlan, /^(\d+)\s\S+/, 'sh vlan brief')
+    base.register_model(:vlan, Puppet::Util::NetworkDevice::Cisco_ios::Model::Vlan, /^(\d+)\s\S+/, 'sh vlan brief')
 
     if base.facts && base.facts['canonicalized_hardwaremodel'] == 'c4500'
       base.register_new_module('c4500', 'hardware')

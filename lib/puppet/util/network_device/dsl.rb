@@ -97,4 +97,66 @@ module Puppet::Util::NetworkDevice::Dsl
     evaluate_new_params
     params_to_hash
   end
+
+  # register a simple param using the specified regexp and commands
+  def register_simple(base, param, match_re, fetch_cmd, cmd)
+    base.register_param param do
+      match match_re
+      cmd fetch_cmd
+      add  do |transport, value|
+        transport.command("#{cmd} #{value}")
+      end
+      remove do |transport, old_value|
+        transport.command("no #{cmd} #{old_value}")
+      end
+    end
+  end
+
+  # register a model based param
+  def register_model(base, param, klass, match_re, fetch_cmd)
+    base.register_param param, Puppet::Util::NetworkDevice::Cisco_ios::Model::ModelValue do
+      model klass
+      match match_re
+      cmd fetch_cmd
+    end
+  end
+
+  # register a simple yes/no param. the regexp must match if the param is present
+  def register_bool(base, param, match_re, fetch_cmd, cmd)
+    base.register_param param do
+      match do |txt|
+        txt.match(match_re)
+        if $1 == 'no'
+          :absent
+        else
+          :present
+        end
+      end
+      cmd fetch_cmd
+      add do |transport, _|
+        transport.command(cmd)
+      end
+      remove do |transport, _|
+        transport.command("no #{cmd}")
+      end
+    end
+  end
+
+  # register a simple array-valued param
+  # transform the array using a block if necessary
+  def register_array(base, param, match_re, fetch_cmd, cmd, &block)
+    base.register_param param do
+      match do |txt|
+        result = txt.scan(match_re).flatten
+        yield result if block_given?
+      end
+      cmd fetch_cmd
+      add do |transport, value|
+        transport.command("#{cmd} #{value}")
+      end
+      remove do |transport, old_value|
+        transport.command("no #{cmd} #{old_value}")
+      end
+    end
+  end
 end
