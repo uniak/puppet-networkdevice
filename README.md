@@ -172,3 +172,9 @@ Note: If you want to see the Communication with the Switch append --debug
 * Markus Burger markus.burger at uni-ak.ac.at
 * Nicole Nagele nicole.nagele at uni-ak.ac.at
 * David Schmitt david at dasz.at
+
+## Code Status
+
+[![Build Status](https://travis-ci.org/uniak/puppet-networkdevice.png?branch=master)](https://travis-ci.org/uniak/puppet-networkdevice)
+
+[![Code Climate](https://codeclimate.com/github/uniak/puppet-networkdevice.png)](https://codeclimate.com/github/uniak/puppet-networkdevice)
