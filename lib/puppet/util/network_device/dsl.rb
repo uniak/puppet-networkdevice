@@ -38,7 +38,7 @@ module Puppet::Util::NetworkDevice::Dsl
       end
       res
     }
- end
+  end
 
   def register_module_after(param, mod, path_addition = "", &block)
     # Register a new Module after the required Fact has been evaluated
@@ -49,19 +49,19 @@ module Puppet::Util::NetworkDevice::Dsl
     @after_hooks[param] << {:mod => mod, :path_addition => path_addition, :block => block}
   end
 
- def register_new_module(mod, path_addition = "")
+  def register_new_module(mod, path_addition = "")
     @included_modules ||= []
     unless @included_modules.include?(mod)
-     Puppet::Util::Autoload.new(self, File.join(mod_path_base, path_addition), :wrap => false).load(mod)
-     if path_addition.empty?
-       mod_const_base.const_get(mod.to_s.capitalize).register(self)
-       @included_modules << mod
-     else
-       mod_const_base.const_get(path_addition.to_s.capitalize).const_get(mod.to_s.capitalize).register(self)
-       @included_modules << mod
-     end
-   end
- end
+      Puppet::Util::Autoload.new(self, File.join(mod_path_base, path_addition), :wrap => false).load(mod)
+      if path_addition.empty?
+        mod_const_base.const_get(mod.to_s.capitalize).register(self)
+        @included_modules << mod
+      else
+        mod_const_base.const_get(path_addition.to_s.capitalize).const_get(mod.to_s.capitalize).register(self)
+        @included_modules << mod
+      end
+    end
+  end
 
   def evaluate_new_params
     Puppet::Util::NetworkDevice::Sorter.new(@params).tsort.each do |param|
