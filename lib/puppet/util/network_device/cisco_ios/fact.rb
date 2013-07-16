@@ -1,7 +1,10 @@
 require 'puppet/util/network_device/cisco_ios'
+require 'puppet/util/network_device/value_helper'
 
 class Puppet::Util::NetworkDevice::Cisco_ios::Fact
   attr_accessor :name, :idx, :value, :evaluated
+  extend Puppet::Util::NetworkDevice::ValueHelper
+
   def initialize(name, transport, facts = nil, idx = 0, &block)
     @name = name
     @idx = idx
@@ -9,14 +12,7 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Fact
     self.instance_eval(&block)
   end
 
-  [:cmd, :match, :add, :remove, :before, :after, :match_param, :required].each do |meth|
-    define_method(meth) do |*args, &block|
-      # return the current value if we are called like an accessor
-      return instance_variable_get("@#{meth}".to_sym) if args.empty? && block.nil?
-      # set the new value if there is any
-      instance_variable_set("@#{meth}".to_sym, (block.nil? ? args.first : block))
-    end
-  end
+  define_value_method [:cmd, :match, :add, :remove, :before, :after, :match_param, :required]
 
   def parse(txt)
     if self.match.is_a?(Proc)

@@ -1,8 +1,10 @@
 require 'puppet/util/network_device/cisco_ios/model'
+require 'puppet/util/network_device/value_helper'
 require 'puppet/util/monkey_patches_ios'
 
 class Puppet::Util::NetworkDevice::Cisco_ios::Model::GenericValue
   attr_accessor :name, :transport, :facts, :idx, :value, :evaluated
+  extend Puppet::Util::NetworkDevice::ValueHelper
 
   def initialize(name, transport, facts, idx, &block)
     @name = name
@@ -16,14 +18,7 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Model::GenericValue
     @value ||= value
   end
 
-  [:cmd, :match, :add, :remove, :idx, :before, :after].each do |meth|
-    define_method(meth) do |*args, &block|
-      # return the current value if we are called like an accessor
-      return instance_variable_get("@#{meth}".to_sym) if args.empty? && block.nil?
-      # set the new value if there is any
-      instance_variable_set("@#{meth}".to_sym, (block.nil? ? args.first : block))
-    end
-  end
+  define_value_method [:cmd, :match, :add, :remove, :idx, :before, :after]
 
   # This is a Helper Method so we can make sure we are in the right scope
   def evaluate(&block)

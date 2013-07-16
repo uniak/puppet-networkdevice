@@ -1,21 +1,16 @@
 require 'erb'
+require 'puppet/util/network_device/value_helper'
 require 'puppet/util/network_device/cisco_ios/model'
 require 'puppet/util/network_device/cisco_ios/model/scoped_value'
 
 class Puppet::Util::NetworkDevice::Cisco_ios::Model::StringValue < Puppet::Util::NetworkDevice::Cisco_ios::Model::ScopedValue
 
+  extend Puppet::Util::NetworkDevice::ValueHelper
   # Make sure that whoever calls this methods receives an error and
   # we don't perform a lookup in the inheritance chain
   undef_method :add, :remove, :update
 
-  [:fragment, :supported].each do |meth|
-    define_method(meth) do |*args, &block|
-      # return the current value if we are called like an accessor
-      return instance_variable_get("@#{meth}".to_sym) if args.empty? && block.nil?
-      # set the new value if there is any
-      instance_variable_set("@#{meth}".to_sym, (block.nil? ? args.first : block))
-    end
-  end
+  define_value_method [:fragment, :supported]
 
   def get_fragment
     return fragment.call if fragment.is_a?(Proc)
