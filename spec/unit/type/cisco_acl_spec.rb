@@ -9,15 +9,11 @@ describe Puppet::Type.type(:cisco_acl) do
     described_class.new(:name => "NETWORK")[:name].should == name
   end
 
-  it "should have a 'device_url' parameter'" do
-    described_class.new(:name => name, :device_url => :device)[:device_url].should == :device
-  end
-
   it "should be applied on device" do
     described_class.new(:name => name).must be_appliable_to_device
   end
 
-  [:name, :device_url].each do |p|
+  [:name].each do |p|
     it "should have a #{p} param" do
       described_class.attrtype(p).should == :param
     end

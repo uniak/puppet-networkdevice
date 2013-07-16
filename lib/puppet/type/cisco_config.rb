@@ -17,10 +17,6 @@ Puppet::Type.newtype(:cisco_config) do
     newvalues(:running)
   end
 
-  newparam(:device_url) do
-    desc "The URL at which the router or switch can be reached."
-  end
-
   newproperty(:hostname) do
     desc "The hostname of the switch."
     newvalues(/^\S+$/)

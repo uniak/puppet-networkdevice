@@ -1,15 +1,10 @@
-require 'puppet/util/network_device/ipcalc'
 require 'puppet/util/monkey_patches_ios'
-require 'puppet/util/host_list_prop'
 require 'puppet/util/host_prop'
-require 'puppet/util/ip_prop'
 
 Puppet::Type.newtype(:cisco_aaa_group) do
   @doc = "This represents an Authentication, Authorization and Accounting group."
 
-  # extend Puppet::Util::HostListProp
   extend Puppet::Util::HostProp
-  extend Puppet::Util::IpProp
 
   apply_to_device
 
@@ -19,10 +14,6 @@ Puppet::Type.newtype(:cisco_aaa_group) do
     desc "The configuration's name. Must always be 'running'."
     isnamevar
     newvalues(/^\w+$/)
-  end
-
-  newparam(:device_url) do
-    desc "The URL at which the router or switch can be reached."
   end
 
   newproperty(:protocol) do

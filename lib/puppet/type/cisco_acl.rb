@@ -13,10 +13,6 @@ Puppet::Type.newtype(:cisco_acl) do
     newvalues(/^[-_\w]+$/)
   end
 
-  newparam(:device_url) do
-    desc "The URL at which the router or switch can be reached."
-  end
-
   newproperty(:type) do
     desc "The ACL type"
     isrequired

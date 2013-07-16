@@ -1,8 +1,6 @@
 require 'puppet'
 require 'puppet/util'
 require 'puppet/util/network_device/base_ios'
-require 'puppet/util/network_device/cisco_ios/cisco_config'
-require 'puppet/util/network_device/cisco_ios/interface'
 require 'puppet/util/network_device/cisco_ios/facts'
 require 'puppet/util/network_device/cisco_ios/model'
 require 'puppet/util/network_device/cisco_ios/model/switch'
