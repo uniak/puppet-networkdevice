@@ -11,3 +11,5 @@ gem 'guard-rspec'
 gem 'rb-readline'
 gem 'rb-inotify', '~> 0.9'
 gem 'net-ssh'
+
+gem 'flay'
