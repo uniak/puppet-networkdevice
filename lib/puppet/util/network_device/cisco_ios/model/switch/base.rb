@@ -10,6 +10,7 @@ require 'puppet/util/network_device/cisco_ios/model/model_value'
 require 'puppet/util/network_device/cisco_ios/model/switch'
 
 module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
+  # register a simple param using the specified regexp and commands
   def self.register_simple(base, param, match_re, fetch_cmd, cmd)
     base.register_param param do
       match match_re
@@ -23,11 +24,33 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
     end
   end
 
+  # register a model based param
   def self.register_model(base, param, klass, match_re, fetch_cmd)
     base.register_param param, Puppet::Util::NetworkDevice::Cisco_ios::Model::ModelValue do
       model klass
       match match_re
       cmd fetch_cmd
+    end
+  end
+
+  # register a simple yes/no param. the regexp must match if the param is present
+  def self.register_bool(base, param, match_re, fetch_cmd, cmd)
+    base.register_param param do
+      match do |txt|
+        txt.match(match_re)
+        if $1 == 'no'
+          :absent
+        else
+          :present
+        end
+      end
+      cmd fetch_cmd
+      add do |transport, _|
+        transport.command(cmd)
+      end
+      remove do |transport, _|
+        transport.command("no #{cmd}")
+      end
     end
   end
 
@@ -70,40 +93,9 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
 
     self.register_simple(base, :system_mtu_routing, /^system\s+mtu\s+routing\s+(\d+)$/, 'sh run', 'system mtu routing')
 
-    base.register_param :ip_classless do
-      match do |txt|
-        if txt.match(/^ip\s+classless$/)
-          :present
-        else
-          :absent
-        end
-      end
-      cmd 'sh run'
-      add do |transport, _|
-        transport.command("ip classless")
-      end
-      remove do |transport, _|
-        transport.command("no ip classless")
-      end
-    end
+    self.register_bool(base, :ip_classless, /^ip\s+classless$/, 'sh run', 'ip classless')
 
-    base.register_param :ip_domain_lookup do
-      match do |txt|
-        txt.match(/^(no)?\s?ip\s+domain-lookup$/)
-        if $1 == 'no'
-          :absent
-        else
-          :present
-        end
-      end
-      cmd 'sh run'
-      add do |transport, _|
-        transport.command("ip domain-lookup")
-      end
-      remove do |transport, _|
-        transport.command("no ip domain-lookup")
-      end
-    end
+    self.register_bool(base, :ip_domain_lookup, /^ip\s+domain-lookup$/, 'sh run', 'ip domain-lookup')
 
     self.register_simple(base, :ip_domain_lookup_source_interface, /^ip\s+domain-lookup\s+source-interface\s+(\S+)$/, 'sh run', 'ip domain-lookup source-interface')
 
@@ -211,41 +203,9 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
 
     self.register_simple(base, :ip_dhcp_relay_information, /^ip\sdhcp\srelay\sinformation\s(.+)$/, 'sh run', 'ip dhcp relay information')
 
-    base.register_param :password_encryption do
-      match do |txt|
-        txt.match(/^(no)?\s?service\s+password-encryption$/)
-        if $1 == 'no'
-          :absent
-        else
-          :present
-        end
-      end
-      cmd 'sh run'
-      add do |transport, _|
-        transport.command("service password-encryption")
-      end
-      remove do |transport, _|
-        transport.command("no service password-encryption")
-      end
-    end
+    self.register_bool(base, :password_encryption, /^service\s+password-encryption$/, 'sh run', 'service password-encryption')
 
-    base.register_param :aaa_new_model do
-      match do |txt|
-        txt.match(/^(no)?\s?aaa\s+new-model$/)
-        if $1 == 'no'
-          :absent
-        else
-          :present
-        end
-      end
-      cmd 'sh run'
-      add do |transport, _|
-        transport.command("aaa new-model")
-      end
-      remove do |transport, _|
-        transport.command("no aaa new-model")
-      end
-    end
+    self.register_bool(base, :aaa_new_model, /^aaa\s+new-model$$/, 'sh run', 'aaa new-model')
 
     # TODO: Hardcode *sigh*
     base.register_param :ip_ssh do
