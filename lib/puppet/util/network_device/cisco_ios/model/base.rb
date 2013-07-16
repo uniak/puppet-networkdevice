@@ -61,4 +61,18 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Model::Base
   def after_update
     transport.command("end")
   end
+
+  def get_base_cmd
+    raise ArgumentError, "Base Command not set for #{self.class}" if base_cmd.nil?
+    ERB.new(base_cmd).result(binding)
+  end
+
+  def construct_cmd
+    base = get_base_cmd
+    Puppet::Util::NetworkDevice::Sorter.new(@params).tsort.each do |param|
+      fragment = param.get_fragment if param.fragment and param.value
+      base << " #{fragment}" if fragment and param.supported?
+    end
+    return base
+  end
 end

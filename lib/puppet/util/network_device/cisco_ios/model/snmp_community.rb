@@ -57,15 +57,6 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Model::SnmpCommunity < Puppet::Uti
     ERB.new(base_cmd).result(binding)
   end
 
-  def construct_cmd
-    base = get_base_cmd
-    Puppet::Util::NetworkDevice::Sorter.new(@params).tsort.each do |param|
-      fragment = param.get_fragment if param.fragment and param.value
-      base << " #{fragment}" if fragment and param.supported?
-    end
-    return base
-  end
-
   def mod_path_base
     return 'puppet/util/network_device/cisco_ios/model/snmp_community'
   end
