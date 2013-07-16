@@ -4,7 +4,7 @@ require 'puppet/util/network_device/cisco_ios/model'
 require 'puppet/util/network_device/cisco_ios/model/base'
 require 'puppet/util/network_device/cisco_ios/model/string_value'
 
-class Puppet::Util::NetworkDevice::Cisco_ios::Model::SnmpHost < Puppet::Util::NetworkDevice::Cisco_ios::Model::Base
+class Puppet::Util::NetworkDevice::Cisco_ios::Model::Snmp_host < Puppet::Util::NetworkDevice::Cisco_ios::Model::Base
 
   attr_reader :params, :name
   attr_accessor :base_cmd
@@ -64,7 +64,7 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Model::SnmpHost < Puppet::Util::Ne
   end
 
   def mod_const_base
-    return Puppet::Util::NetworkDevice::Cisco_ios::Model::SnmpHost
+    return Puppet::Util::NetworkDevice::Cisco_ios::Model::Snmp_host
   end
 
   def param_class

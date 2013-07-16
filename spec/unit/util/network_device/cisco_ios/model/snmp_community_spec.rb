@@ -3,7 +3,7 @@ require 'spec_helper'
 require 'puppet/util/network_device'
 require 'puppet/util/network_device/cisco_ios/model/snmp_community'
 
-describe Puppet::Util::NetworkDevice::Cisco_ios::Model::SnmpCommunity do
+describe Puppet::Util::NetworkDevice::Cisco_ios::Model::Snmp_community do
   before(:each) do
     @transport = stub_everything 'transport'
     @snmp_community = described_class.new(@transport, {}, {:ensure => :present, :name => 'foobar'})

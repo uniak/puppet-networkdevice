@@ -4,7 +4,7 @@ require 'puppet/util/network_device/cisco_ios/model'
 require 'puppet/util/network_device/cisco_ios/model/base'
 require 'puppet/util/network_device/cisco_ios/model/string_value'
 
-class Puppet::Util::NetworkDevice::Cisco_ios::Model::RadiusServer < Puppet::Util::NetworkDevice::Cisco_ios::Model::Base
+class Puppet::Util::NetworkDevice::Cisco_ios::Model::Radius_server < Puppet::Util::NetworkDevice::Cisco_ios::Model::Base
 
   attr_reader :params, :name
   attr_accessor :base_cmd
@@ -63,7 +63,7 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Model::RadiusServer < Puppet::Util
   end
 
   def mod_const_base
-    return Puppet::Util::NetworkDevice::Cisco_ios::Model::RadiusServer
+    return Puppet::Util::NetworkDevice::Cisco_ios::Model::Radius_server
   end
 
   def param_class

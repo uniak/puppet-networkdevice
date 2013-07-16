@@ -1,7 +1,7 @@
 require 'puppet/util/network_device/cisco_ios/model'
 require 'puppet/util/network_device/cisco_ios/model/snmp_host'
 
-module Puppet::Util::NetworkDevice::Cisco_ios::Model::SnmpHost::Base
+module Puppet::Util::NetworkDevice::Cisco_ios::Model::Snmp_host::Base
   def self.register(base)
     base.base_cmd = "snmp-server host <%= name %>"
     snmp_scope = /^(snmp-server host (\S+)(.*))/

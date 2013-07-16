@@ -1,5 +1,7 @@
 require 'puppet/util/network_device/ipcalc'
 require 'puppet/util/network_device/cisco_ios/model'
+require 'puppet/util/network_device/cisco_ios/model/aaa_group'
+require 'puppet/util/network_device/cisco_ios/model/acl'
 require 'puppet/util/network_device/cisco_ios/model/archive'
 require 'puppet/util/network_device/cisco_ios/model/vlan'
 require 'puppet/util/network_device/cisco_ios/model/user'
@@ -50,80 +52,29 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch < Puppet::Util::Netw
     return int
   end
 
-  def aaa_group(name)
-    grp = params[:aaa_groups].value.find { |g| g.name == name }
-    if grp.nil?
-      grp = Puppet::Util::NetworkDevice::Cisco_ios::Model::Aaa_group.new(transport, facts, {:name => name})
-      params[:aaa_groups].value << grp
+  [ :aaa_group,
+    :acl,
+    :user,
+    :vlan,
+    :radius_server,
+    :snmp_community,
+    :snmp_host,
+  ].each do |key|
+    define_method key.to_s do |name|
+      grp = params[key].value.find { |g| g.name == name }
+      if grp.nil?
+        grp = Puppet::Util::NetworkDevice::Cisco_ios::Model.const_get(key.to_s.capitalize).new(transport, facts, {:name => name})
+        params[key].value << grp
+      end
+      grp.evaluate_new_params
+      return grp
     end
-    grp.evaluate_new_params
-    return grp
-  end
-
-  def acl(name)
-    acl = params[:acl].value.find { |a| a.name == name }
-    if acl.nil?
-      acl = Puppet::Util::NetworkDevice::Cisco_ios::Model::Acl.new(transport, facts, {:name => name})
-      params[:acl].value << acl
-    end
-    acl.evaluate_new_params
-    return acl
-  end
-
-  def user(name)
-    user = params[:user].value.find { |u| u.name == name }
-    if user.nil?
-      user = Puppet::Util::NetworkDevice::Cisco_ios::Model::User.new(transport, facts, {:name => name})
-      params[:user].value << user
-    end
-    user.evaluate_new_params
-    return user
-  end
-
-  def vlan(name)
-    vlan = params[:vlan].value.find { |v| v.name == name }
-    if vlan.nil?
-      vlan = Puppet::Util::NetworkDevice::Cisco_ios::Model::Vlan.new(transport, facts, {:name => name})
-      params[:vlan].value << vlan
-    end
-    vlan.evaluate_new_params
-    return vlan
-  end
-
-  def radius_server(name)
-    radius = params[:radius_server].value.find { |rs| rs.name == name }
-    if radius.nil?
-      radius = Puppet::Util::NetworkDevice::Cisco_ios::Model::RadiusServer.new(transport, facts, {:name => name})
-      params[:radius_server].value << radius
-    end
-    radius.evaluate_new_params
-    return radius
   end
 
   def line(name)
     line = params[:lines].value.find { |l| l.name == name }
     line.evaluate_new_params
     return line
-  end
-
-  def snmp_community(name)
-    snmp = params[:snmp_communities].value.find { |snmp| snmp.name == name }
-    if snmp.nil?
-      snmp = Puppet::Util::NetworkDevice::Cisco_ios::Model::SnmpCommunity.new(transport, facts, {:name => name})
-      params[:snmp_communities].value << snmp
-    end
-    snmp.evaluate_new_params
-    return snmp
-  end
-
-  def snmp_host(name)
-    snmp = params[:snmp_hosts].value.find { |snmp| snmp.name == name }
-    if snmp.nil?
-      snmp = Puppet::Util::NetworkDevice::Cisco_ios::Model::SnmpHost.new(transport, facts, {:name => name})
-      params[:snmp_hosts].value << snmp
-    end
-    snmp.evaluate_new_params
-    return snmp
   end
 
   def snmp(name)

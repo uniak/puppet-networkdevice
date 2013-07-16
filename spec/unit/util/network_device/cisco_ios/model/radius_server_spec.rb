@@ -3,10 +3,10 @@ require 'spec_helper'
 require 'puppet/util/network_device'
 require 'puppet/util/network_device/cisco_ios/model/radius_server'
 
-describe Puppet::Util::NetworkDevice::Cisco_ios::Model::RadiusServer do
+describe Puppet::Util::NetworkDevice::Cisco_ios::Model::Radius_server do
   before(:each) do
     @transport = stub_everything "transport"
-    @rad = Puppet::Util::NetworkDevice::Cisco_ios::Model::RadiusServer.new(@transport, {}, { :name => '127.0.0.1', :ensure => :present })
+    @rad = Puppet::Util::NetworkDevice::Cisco_ios::Model::Radius_server.new(@transport, {}, { :name => '127.0.0.1', :ensure => :present })
   end
 
   describe 'when working with radius_server params' do

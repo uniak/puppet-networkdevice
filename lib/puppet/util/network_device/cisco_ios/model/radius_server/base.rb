@@ -1,7 +1,7 @@
 require 'puppet/util/network_device/cisco_ios/model'
 require 'puppet/util/network_device/cisco_ios/model/radius_server'
 
-module Puppet::Util::NetworkDevice::Cisco_ios::Model::RadiusServer::Base
+module Puppet::Util::NetworkDevice::Cisco_ios::Model::Radius_server::Base
   def self.register(base)
     base.base_cmd = "radius-server host <%= name %>"
     scope = /^(radius-server host (\S+)(.*))/
