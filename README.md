@@ -50,7 +50,7 @@ device.conf
     url sshios://$user:$pass@$switch_fqdn:$ssh_port/?$flags
 
 
-For various Exmaples see [/exmaples](https://github.com/uniak/puppet-networkdevice/tree/master/exmaples)
+For various Examples see [/examples](https://github.com/uniak/puppet-networkdevice/tree/master/examples)
 
 Note: If you want to see the Communication with the Switch append --debug to the Puppet device Command
 
