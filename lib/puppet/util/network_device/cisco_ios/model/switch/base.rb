@@ -54,38 +54,34 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
     end
   end
 
+  # register a simple array-valued param
+  # transform the array using a block if necessary
+  def self.register_array(base, param, match_re, fetch_cmd, cmd, &block)
+    base.register_param param do
+      match do |txt|
+        result = txt.scan(match_re).flatten
+        yield result if block_given?
+      end
+      cmd fetch_cmd
+      add do |transport, value|
+        transport.command("#{cmd} #{value}")
+      end
+      remove do |transport, old_value|
+        transport.command("no #{cmd} #{old_value}")
+      end
+    end
+  end
+
   def self.register(base)
     self.register_simple(base, :hostname, /^hostname\s+(\S+)$/, 'sh run', 'hostname')
 
     self.register_simple(base, :ip_domain_name, /^ip\s+domain-name\s+(\S+)$/, 'sh run', 'ip domain-name')
 
-    base.register_param :ntp_servers do
-      match do |txt|
-        txt.scan(/^ntp\s+server\s+(\S+)$/).flatten.map do |ip|
-          IPAddr.new(ip)
-        end
-      end
-      cmd 'sh run'
-      add do |transport, value|
-        transport.command("ntp server #{value}")
-      end
-      remove do |transport, old_value|
-        transport.command("no ntp server #{old_value}")
-      end
+    self.register_array(base, :ntp_servers, /^ntp\s+server\s+(\S+)$/, 'sh run', 'ntp server') do |values|
+      values.select { |ip| IPAddr.new(ip) }
     end
 
-    base.register_param :logging_servers do
-      match do |txt|
-        txt.scan(/^logging\s+(\S+)$/).flatten
-      end
-      cmd 'sh run'
-      add do |transport, value|
-        transport.command("logging #{value}")
-      end
-      remove do |transport, old_value|
-        transport.command("no logging #{old_value}")
-      end
-    end
+    self.register_array(base, :logging_servers, /^logging\s+(\S+)$/, 'sh run', 'logging')
 
     # MET 1 0 vs. MET 1
     # in conf t vs sh run
@@ -99,19 +95,8 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
 
     self.register_simple(base, :ip_domain_lookup_source_interface, /^ip\s+domain-lookup\s+source-interface\s+(\S+)$/, 'sh run', 'ip domain-lookup source-interface')
 
-    base.register_param :ip_name_servers do
-      match do |txt|
-        txt.scan(/^ip\s+name-server\s+(\S+)$/).flatten.map do |ip|
-          IPAddr.new(ip)
-        end
-      end
-      cmd 'sh run'
-      add do |transport, value|
-        transport.command("ip name-server #{value}")
-      end
-      remove do |transport, old_value|
-        transport.command("no ip name-server #{old_value}")
-      end
+    self.register_array(base, :ip_name_servers, /^ip\s+name-server\s+(\S+)$/, 'sh run', 'ip name-server') do |values|
+      values.select { |ip| IPAddr.new(ip) }
     end
 
     self.register_simple(base, :ip_radius_source_interface, /^ip\s+radius\s+source-interface\s+(\S+)\s?$/, 'sh run', 'ip radius source-interface')
@@ -167,22 +152,7 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
     self.register_simple(base, :vtp_password, /^VTP\sPassword:\s+(\S+)$/, 'sh vtp password', 'vtp password')
 
     # TODO: Separate Type for dhcp properties?
-    base.register_param :ip_dhcp_snooping do
-      match do |txt|
-        if txt.match(/^ip\sdhcp\ssnooping$/)
-          :present
-        else
-          :absent
-        end
-      end
-      cmd 'sh run'
-      add do |transport, _|
-        transport.command("ip dhcp snooping")
-      end
-      remove do |transport, _|
-        transport.command("no ip dhcp snooping")
-      end
-    end
+    self.register_bool(base, :ip_dhcp_snooping, /^ip\sdhcp\ssnooping$/, 'sh run', 'ip dhcp snooping')
 
     self.register_simple(base, :ip_dhcp_snooping_vlans, /^ip\sdhcp\ssnooping\svlan\s(\S+)$/, 'sh run', 'ip dhcp snooping vlan')
 
