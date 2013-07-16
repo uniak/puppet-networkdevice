@@ -1,7 +1,7 @@
 require 'puppet/util/network_device/cisco_ios/model'
 require 'puppet/util/network_device/cisco_ios/model/snmp_community'
 
-module Puppet::Util::NetworkDevice::Cisco_ios::Model::SnmpCommunity::Base
+module Puppet::Util::NetworkDevice::Cisco_ios::Model::Snmp_community::Base
   def self.register(base)
     base.base_cmd = "snmp-server community <%= name %>"
     snmp_scope = /^(snmp-server community (\S+)(.*))/
