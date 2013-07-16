@@ -1,4 +1,4 @@
-source :rubygems
+source 'https://rubygems.org'
 gem 'rake'
 gem 'rspec', '~> 2.9.0', :require => false
 gem 'mocha', '~> 0.10.5', :require => false
