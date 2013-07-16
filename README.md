@@ -62,4 +62,4 @@ Note: If you want to see the Communication with the Switch append --debug to the
 
 ## Code Status
 
-[![Build Status](https://travis-ci.org/uniak/puppet-networkdevice.png?branch=master)](https://travis-ci.org/uniak/puppet-networkdevice [![Code Climate](https://codeclimate.com/github/uniak/puppet-networkdevice.png)](https://codeclimate.com/github/uniak/puppet-networkdevice)
+[![Build Status](https://travis-ci.org/uniak/puppet-networkdevice.png?branch=master)](https://travis-ci.org/uniak/puppet-networkdevice) [![Code Climate](https://codeclimate.com/github/uniak/puppet-networkdevice.png)](https://codeclimate.com/github/uniak/puppet-networkdevice)
