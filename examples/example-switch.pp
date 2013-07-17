@@ -1,11 +1,11 @@
 cisco_config {
-  'running:'
+  'running':
     aaa_new_model                     => present,
     clock_timezone                    => 'MET 1 0',
     enable_secret                     => '$secret',
     errdisable_recovery_cause         => [ 'link-flap' ],
     errdisable_recovery_interval      => 60,
-    hostname                          => 'switch-1'
+    hostname                          => 'switch-1',
     ip_default_gateway                => '10.10.10.1',
     ip_dhcp_relay_information         => 'trust-all',
     ip_dhcp_snooping                  => present,
@@ -18,7 +18,7 @@ cisco_config {
     ip_radius_source_interface        => 'Vlan1',
     ip_ssh                            => present,
     ip_ssh_version                    => 2,
-    loggin_facility                   => 'local0',
+    logging_facility                  => 'local0',
     logging_servers                   => [ '10.10.10.10' ],
     logging_trap                      => 'critical',
     ntp_servers                       => [ '10.10.10.10' ],
@@ -124,7 +124,7 @@ cisco_interface {
     mode                      => 'trunk',
     negotiate                 => false,
     spanning_tree             => 'node',
-    trunk_allowed_vlan        => '1-99'
+    trunk_allowed_vlan        => '1-99',
     trunk_encapsulation       => 'dot1q',
     trunk_native_vlan         => '99';
 }
