@@ -165,7 +165,7 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
 
     base.register_model(:interfaces, Puppet::Util::NetworkDevice::Cisco_ios::Model::Interface, /^interface\s+(\S+)$/, 'sh run')
 
-    base.register_model(:aaa_groups, Puppet::Util::NetworkDevice::Cisco_ios::Model::Aaa_group, /^aaa group server (?:radius|tacacs\+)\s+(\S+)$/, 'sh run')
+    base.register_model(:aaa_group, Puppet::Util::NetworkDevice::Cisco_ios::Model::Aaa_group, /^aaa group server (?:radius|tacacs\+)\s+(\S+)$/, 'sh run')
 
     base.register_model(:acl, Puppet::Util::NetworkDevice::Cisco_ios::Model::Acl, /^ip access-list (?:standard|extended)\s+(\S+)$/, 'sh run')
 
@@ -196,9 +196,9 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
       cmd 'sh run'
     end
 
-    base.register_model(:snmp_communities, Puppet::Util::NetworkDevice::Cisco_ios::Model::Snmp_community, /^snmp-server\scommunity\s+(\S+)/, 'sh run')
+    base.register_model(:snmp_community, Puppet::Util::NetworkDevice::Cisco_ios::Model::Snmp_community, /^snmp-server\scommunity\s+(\S+)/, 'sh run')
 
-    base.register_model(:snmp_hosts, Puppet::Util::NetworkDevice::Cisco_ios::Model::Snmp_host, /^snmp-server\shost\s+(\S+)/, 'sh run')
+    base.register_model(:snmp_host, Puppet::Util::NetworkDevice::Cisco_ios::Model::Snmp_host, /^snmp-server\shost\s+(\S+)/, 'sh run')
 
     base.register_model(:vlan, Puppet::Util::NetworkDevice::Cisco_ios::Model::Vlan, /^(\d+)\s\S+/, 'sh vlan brief')
 
