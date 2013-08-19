@@ -125,11 +125,10 @@ module Puppet::Util::NetworkDevice::Dsl
   def register_bool(param, match_re, fetch_cmd, cmd)
     register_param param do
       match do |txt|
-        txt.match(match_re)
-        if $1 == 'no'
-          :absent
-        else
+        if !!txt.match(match_re)
           :present
+        else
+          :absent
         end
       end
       cmd fetch_cmd
@@ -148,7 +147,11 @@ module Puppet::Util::NetworkDevice::Dsl
     register_param param do
       match do |txt|
         result = txt.scan(match_re).flatten
-        yield result if block_given?
+        if block_given?
+          yield result
+        else
+          result
+        end
       end
       cmd fetch_cmd
       add do |transport, value|

@@ -163,7 +163,7 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
 
     base.register_simple(:errdisable_recovery_interval, /^errdisable recovery interval (\d+)\s*$/, 'sh run', 'errdisable recovery interval')
 
-    base.register_model(:interfaces, Puppet::Util::NetworkDevice::Cisco_ios::Model::Interface, /^interface\s+(\S+)$/, 'sh run')
+    base.register_model(:interfaces, Puppet::Util::NetworkDevice::Cisco_ios::Model::Interface, /^interface\s+(\S+)\r*$/, 'sh run')
 
     base.register_model(:aaa_group, Puppet::Util::NetworkDevice::Cisco_ios::Model::Aaa_group, /^aaa group server (?:radius|tacacs\+)\s+(\S+)$/, 'sh run')
 
