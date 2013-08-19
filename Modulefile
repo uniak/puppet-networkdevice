@@ -1,5 +1,5 @@
 name 'uniak-networkdevice'
-version '0.0.2'
+version '0.0.3'
 
 author 'Markus Burger <markus.burger@uni-ak.ac.at>'
 license 'Apache 2.0'
