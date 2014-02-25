@@ -116,7 +116,7 @@ module Puppet::Util::NetworkDevice::Cisco_ios::PossibleFacts::Base
 
     base.register_param 'vtp_mode' do
       match do |txt|
-        txt.scan(/^Feature VLAN:\n.+\nVTP Operating Mode\s+:\s(.+)/).flatten.first.gsub(/ /, '_').downcase
+        txt.scan(/^VTP Operating Mode\s+:\s(.+)$/).flatten.first.gsub(/ /, '_').downcase
       end
       cmd 'sh vtp status'
     end
