@@ -51,12 +51,15 @@ Puppet::Type.newtype(:cisco_config) do
 
   newproperty(:system_mtu_routing) do
     desc "The MTU used by this Switch's IP Interfaces."
+    newvalues(:absent)
     newvalues(/^[0-9]+$/)
     defaultto 1500
     munge do |value|
       case super(value)
       when Integer, Fixnum, Bignum
         value
+      when :absent
+        :absent
       when /^\d+$/
         Integer(value)
       else
@@ -109,7 +112,7 @@ Puppet::Type.newtype(:cisco_config) do
   newproperty(:logging_trap) do
     desc "Set the Syslog logging level for this Switch."
     newvalues(:emergencies, :alerts, :critical, :errors, :warnings,
-              :notifications, :informational, :debugging)
+              :notifications, :informational, :debugging, :absent)
     aliasvalue(0, :emergencies)
     aliasvalue(1, :alerts)
     aliasvalue(2, :critical)
@@ -125,7 +128,7 @@ Puppet::Type.newtype(:cisco_config) do
   newproperty(:logging_facility) do
     desc "Set the Facility Parameter for Syslog Messages from this Switch."
     newvalues(:auth, :cron, :daemon, :kern, /^local[0-7]$/, :lpr, :mail,
-              :news, /^sys(9|1[0-4])$/, :syslog, :user, :uucp)
+              :news, /^sys(9|1[0-4])$/, :syslog, :user, :uucp, :absent)
     defaultto :syslog
   end
 
