@@ -19,7 +19,7 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Vlan::Base
       remove { |*_| }
     end
     base.register_scoped :desc, vlan_scope do
-      match /^\d+\s(\S+)/
+      match /^\d+\s+(\S+)/
       cmd 'sh vlan brief'
       add do |transport, value|
         transport.command("name #{value}")
