@@ -5,7 +5,7 @@ Puppet::Type.newtype(:cisco_interface) do
 
   newparam(:name) do
     desc "The interface's name."
-    newvalues(/^\w+[Ee]thernet\S+$/, /[Vv]lan\d+$/, /[Tt]unnel\d+$/)
+    newvalues(/^\w+[Ee]thernet\S+$/, /[Vv]vlan\d+$/, /[Tt]unnel\d+$/)
     isnamevar
   end
 
@@ -115,3 +115,128 @@ Puppet::Type.newtype(:cisco_interface) do
     desc "How long a port should stay locked after a violation."
     defaultto do
       resource.value(:port_security) == :absent ? :absent : 1
+    end
+    newvalues(:absent, /^\d+$/)
+
+    validate do |value|
+      value = value.to_sym if value.is_a?(String)
+      if [:undef, :absent].include?(resource.value(:port_security)) and not [:undef, :absent].include?(value)
+        raise ArgumentError, "May only be set if port security is active"
+      end
+
+      self.class.value_collection.validate(value)
+    end
+  end
+
+  newproperty(:port_security_aging_type) do
+    desc "Which type of aging should be applied after a violation."
+    defaultto do
+      resource.value(:port_security) == :absent ? :absent : :inactivity
+    end
+    newvalues(:absent, :absolute, :inactivity)
+
+    validate do |value|
+      value = value.to_sym if value.is_a?(String)
+      if [:undef, :absent].include?(resource.value(:port_security)) and not [:undef, :absolute, :absent].include?(value)
+        raise ArgumentError, "May only be set if port security is active"
+      end
+
+      self.class.value_collection.validate(value)
+    end
+  end
+
+  newproperty(:spanning_tree) do
+    desc "Configures how this interface takes part in the spanning
+    tree.
+
+    Setting this to `leaf` will allow the device on this port to
+    connect immediately, but not participate in STP negotiations. On
+    IOS, this sets bpduguard, and portfast.
+
+    Setting this to `node` allows the device to participate in
+    STP negotiations, but incurs a slight delay when connecting. On
+    IOS, this disables bpduguard, and portfast.
+
+    The interface may be in the `partial` state, if the options are not
+    configured consistently."
+
+    defaultto(:node)
+    newvalues(:leaf, :node, :partial)
+  end
+
+  newproperty(:spanning_tree_bpduguard) do
+    desc "Don't accept BPDUs on this interface"
+
+    defaultto do
+      resource.value(:spanning_tree) == :leaf ? :present : :absent
+    end
+
+    newvalues(:present, :absent)
+  end
+
+  newproperty(:spanning_tree_guard) do
+    desc "The guard mode of this interface."
+
+    defaultto(:absent)
+    newvalues(:loop, :absent, :root)
+
+    validate do |value|
+      if resource.value(:spanning_tree) != :leaf and value == :root
+        raise ArgumentError, "Can set root guard only on node interfaces"
+      end
+
+      self.class.value_collection.validate(value)
+    end
+  end
+
+  newproperty(:spanning_tree_cost) do
+    desc "The STP port priority"
+
+    defaultto(:absent)
+    newvalues(:absent, /^\d*$/)
+
+    validate do |value|
+      if resource.value(:spanning_tree) == :leaf and value != :absent
+        raise ArgumentError, "Setting a port cost for a leaf device does not make sense"
+      end
+
+      self.class.value_collection.validate(value)
+    end
+  end
+
+  newproperty(:spanning_tree_port_priority) do
+    desc "The STP port priority"
+
+    defaultto(:absent)
+    newvalue(:absent)
+    (0..240).step(16).each {|v| newvalue(v)} # i blame cisco
+
+    validate do |value|
+      if resource.value(:spanning_tree) == :leaf and value != :absent
+        raise ArgumentError, "Setting a port priority for a leaf device does not make sense"
+      end
+
+      self.class.value_collection.validate(value)
+    end
+  end
+
+  newproperty(:dhcp_snooping_limit_rate) do
+    desc "DHCP snooping rate limit"
+
+    defaultto(:absent)
+    newvalues(:absent, /^\d+$/)
+
+    validate do |value|
+      return if value == :absent
+      raise ArgumentError, "'ip dhcp snooping limit rate' must be between 1-2048" unless value.to_i >= 1 && value.to_i <= 2048
+    end
+  end
+
+  newproperty(:dhcp_snooping_trust) do
+    desc "DHCP Snooping trust config"
+
+    defaultto(:absent)
+    newvalues(:absent, :present)
+  end
+end
+
