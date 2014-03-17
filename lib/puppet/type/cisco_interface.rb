@@ -5,7 +5,7 @@ Puppet::Type.newtype(:cisco_interface) do
 
   newparam(:name) do
     desc "The interface's name."
-    newvalues(/^\w+[Ee]thernet\S+$/, /[Vv]vlan\d+$/, /[Tt]unnel\d+$/)
+    newvalues(/^\w+[Ee]thernet\S+$/, /[Vv]lan\d+$/, /[Tt]unnel\d+$/)
     isnamevar
   end
 
