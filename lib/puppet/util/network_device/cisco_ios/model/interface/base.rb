@@ -136,6 +136,10 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Interface::Base
       end
     end
 
+    if base.facts && base.facts['canonicalized_hardwaremodel'] == 'c6509'
+      base.register_new_module('c6509', 'hardware')
+    end
+
     if base.facts && base.facts['canonicalized_hardwaremodel'] == 'c4500'
       base.register_new_module('c4500', 'hardware')
     end
