@@ -16,3 +16,6 @@ gem 'rb-inotify', '~> 0.9'
 gem 'net-ssh'
 
 gem 'flay'
+
+# lock to older versions to run under 1.8.7
+gem 'celluloid', '~> 0.11.0'
