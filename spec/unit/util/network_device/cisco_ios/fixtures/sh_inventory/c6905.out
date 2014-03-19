@@ -1,0 +1,46 @@
+NAME: "WS-C6509-E", DESCR: "Cisco Systems Catalyst 6500 9-slot Chassis System"
+PID: WS-C6509-E        ,                     VID: V04, SN: SMC123601BC
+
+NAME: "WS-C6K-VTT-E 1", DESCR: "VTT-E FRU 1"
+PID: WS-C6K-VTT-E      ,                     VID:    , SN: SMT1230E716
+
+NAME: "WS-C6K-VTT-E 2", DESCR: "VTT-E FRU 2"
+PID: WS-C6K-VTT-E      ,                     VID:    , SN: SMT1230G160
+
+NAME: "WS-C6K-VTT-E 3", DESCR: "VTT-E FRU 3"
+PID: WS-C6K-VTT-E      ,                     VID:    , SN: SMT1231J154
+
+NAME: "CLK-7600 1", DESCR: "OSR-7600 Clock FRU 1"
+PID: CLK-7600          ,                     VID:    , SN: SMT1221H231
+
+NAME: "CLK-7600 2", DESCR: "OSR-7600 Clock FRU 2"
+PID: CLK-7600          ,                     VID:    , SN: SMT1229H131
+
+NAME: "1", DESCR: "WS-X6748-GE-TX CEF720 48 port 10/100/1000mb Ethernet Rev. 3.0"
+PID: WS-X6748-GE-TX    ,                     VID: V03, SN: SAL12314PV4
+
+NAME: "WS-F6700-CFC Centralized Forwarding Card sub-module of 1", DESCR: "WS-F6700-CFC Centralized Forwarding Card Rev. 4.1"
+PID: WS-F6700-CFC      ,                     VID: V06, SN: SAL12314QZQ
+
+NAME: "5", DESCR: "VS-S720-10G 5 ports Supervisor Engine 720 10GE Rev. 2.0"
+PID: VS-S720-10G       ,                     VID: V02, SN: SAL12313VQN
+
+NAME: "msfc sub-module of 5", DESCR: "VS-F6K-MSFC3 MSFC3 Daughterboard Rev. 1.0"
+PID: VS-F6K-MSFC3      ,                     VID:    , SN: SAL12313UJW
+
+NAME: "VS-F6K-PFC3C Policy Feature Card 3 sub-module of 5", DESCR: "VS-F6K-PFC3C Policy Feature Card 3 Rev. 1.0"
+PID: VS-F6K-PFC3C      ,                     VID: V01, SN: SAL12313JK1
+
+NAME: "Transceiver Te5/4", DESCR: "X2 Transceiver 10Gbase-LR Te5/4"
+PID: X2-10GB-LR        ,                     VID: V04 , SN: ECL131401AH
+
+NAME: "WS-C6509-E-FAN 1", DESCR: "Enhanced 9-slot Fan Tray 1"
+PID: WS-C6509-E-FAN    ,                     VID: V03, SN: DCH12311292
+
+NAME: "PS 1 WS-CAC-6000W", DESCR: "AC power supply, 6000 watt 1"
+PID: WS-CAC-6000W      ,                     VID: V05, SN: AZS12310CJR
+
+NAME: "PS 2 WS-CAC-6000W", DESCR: "AC power supply, 6000 watt 2"
+PID: WS-CAC-6000W      ,                     VID: V05, SN: AZS12310GB7
+
+

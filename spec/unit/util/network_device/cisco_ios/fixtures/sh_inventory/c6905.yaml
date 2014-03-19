@@ -1,0 +1,29 @@
+---
+inventory_clk-7600_1_descr: "OSR-7600 Clock FRU 1"
+inventory_clk-7600_1_pid: "CLK-7600"
+inventory_clk-7600_1_sn: "SMT1221H231"
+inventory_clk-7600_1_vid: ~
+inventory_clk-7600_2_descr: "OSR-7600 Clock FRU 2"
+inventory_clk-7600_2_pid: "CLK-7600"
+inventory_clk-7600_2_sn: "SMT1229H131"
+inventory_clk-7600_2_vid: ~
+inventory_msfc_sub-module_of_5_descr: "VS-F6K-MSFC3 MSFC3 Daughterboard Rev. 1.0"
+inventory_msfc_sub-module_of_5_pid: "VS-F6K-MSFC3"
+inventory_msfc_sub-module_of_5_sn: "SAL12313UJW"
+inventory_msfc_sub-module_of_5_vid: ~
+inventory_transceiver_te5_4_descr: "X2 Transceiver 10Gbase-LR Te5/4"
+inventory_transceiver_te5_4_pid: "X2-10GB-LR"
+inventory_transceiver_te5_4_sn: "ECL131401AH"
+inventory_transceiver_te5_4_vid: "V04"
+inventory_ws-c6k-vtt-e_1_descr: "VTT-E FRU 1"
+inventory_ws-c6k-vtt-e_1_pid: "WS-C6K-VTT-E"
+inventory_ws-c6k-vtt-e_1_sn: "SMT1230E716"
+inventory_ws-c6k-vtt-e_1_vid: ~
+inventory_ws-c6k-vtt-e_2_descr: "VTT-E FRU 2"
+inventory_ws-c6k-vtt-e_2_pid: "WS-C6K-VTT-E"
+inventory_ws-c6k-vtt-e_2_sn: "SMT1230G160"
+inventory_ws-c6k-vtt-e_2_vid: ~
+inventory_ws-c6k-vtt-e_3_descr: "VTT-E FRU 3"
+inventory_ws-c6k-vtt-e_3_pid: "WS-C6K-VTT-E"
+inventory_ws-c6k-vtt-e_3_sn: "SMT1231J154"
+inventory_ws-c6k-vtt-e_3_vid: ~

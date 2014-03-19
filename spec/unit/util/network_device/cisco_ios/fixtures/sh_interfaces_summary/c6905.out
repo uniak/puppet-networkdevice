@@ -1,0 +1,72 @@
+
+ *: interface is up
+ IHQ: pkts in input hold queue     IQD: pkts dropped from input queue
+ OHQ: pkts in output hold queue    OQD: pkts dropped from output queue
+ RXBS: rx rate (bits/sec)          RXPS: rx rate (pkts/sec)
+ TXBS: tx rate (bits/sec)          TXPS: tx rate (pkts/sec)
+ TRTL: throttle count
+
+  Interface               IHQ   IQD  OHQ   OQD  RXBS RXPS  TXBS TXPS TRTL
+-------------------------------------------------------------------------
+* GigabitEthernet1/1       0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/2       0     0    0     0     0    0     0    0    0
+* GigabitEthernet1/3       0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/4       0     0    0     0     0    0     0    0    0
+* GigabitEthernet1/5       0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/6       0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/7       0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/8       0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/9       0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/10      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/11      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/12      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/13      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/14      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/15      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/16      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/17      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/18      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/19      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/20      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/21      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/22      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/23      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/24      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/25      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/26      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/27      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/28      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/29      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/30      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/31      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/32      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/33      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/34      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/35      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/36      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/37      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/38      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/39      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/40      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/41      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/42      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/43      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/44      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/45      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/46      0     0    0     0     0    0     0    0    0
+  GigabitEthernet1/47      0     0    0     0     0    0     0    0    0
+* GigabitEthernet1/48      0     0    0     0  2000    2  1000    1    0
+  GigabitEthernet5/1       0     0    0     0     0    0     0    0    0
+  GigabitEthernet5/2       0     0    0     0     0    0     0    0    0
+  GigabitEthernet5/3       0     0    0     0     0    0     0    0    0
+          
+  Interface               IHQ   IQD  OHQ   OQD  RXBS RXPS  TXBS TXPS TRTL
+-------------------------------------------------------------------------
+  TenGigabitEthernet5/4    0     0    0     0     0    0     0    0    0
+  TenGigabitEthernet5/5    0     0    0     0     0    0     0    0    0
+* Loopback0                0     0    0     0     0    0     0    0    0
+  Vlan1                    0     0    0     0     0    0     0    0    0
+* Vlan852                  0     0    0     0     0    0     0    0    0
+* Vlan900                  0     0    0     0     0    0     0    0    0
+* Vlan1280                 0     0    0     0  1000    1  1000    1    0
+

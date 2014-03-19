@@ -1,0 +1,22 @@
+---
+canonicalized_hardwaremodel: c6509
+configuration_register: "0x2102"
+gigabit_ethernet: "51"
+hardwaremodel: WS-C6509-E
+hardwarerevision: "1.4"
+hostname: hostname
+memorysize: 983008K
+operatingsystemfeature: ADVIPSERVICESK9_WAN
+operatingsystem: IOS
+operatingsystemmajrelease: 12.2SXJ
+operatingsystemplatform: IOS-XE
+operatingsystemrelease: 12.2(33)SXJ2
+operatingsystemplatform: "s72033_rp"
+processor_board_id: SMC123600BC
+processor: R7000
+system_image: disk0:s72033-advipservicesk9_wan-mz.122-33.SXJ2.bin
+ten_gigabit_ethernet: "2"
+uptime: 2 weeks, 6 days, 18 hours, 47 minutes
+uptime_days: 20
+uptime_seconds: 1795620
+virtual_ethernet: "4"

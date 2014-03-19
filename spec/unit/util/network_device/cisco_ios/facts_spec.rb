@@ -245,6 +245,13 @@ eos
       "operatingsystemmajrelease" => "03.04.00.SG",
       "operatingsystemfeature" => "UNIVERSALK9",
       "operatingsystemxeplatform" => "4500"
+    },
+    "Cisco IOS Software, s72033_rp Software (s72033_rp-ADVIPSERVICESK9_WAN-M), Version 12.2(33)SXJ2, RELEASE SOFTWARE (fc4)" => {
+      "operatingsystem" => "IOS",
+      "operatingsystemplatform" => "s72033_rp",
+      "operatingsystemrelease" => "12.2(33)SXJ2",
+      "operatingsystemmajrelease" => "12.2SXJ",
+      "operatingsystemfeature" => "ADVIPSERVICESK9_WAN"
     }
   }.each do |ver, expected|
     it "should parse show ver output for device software version facts" do
@@ -273,7 +280,7 @@ eos
   end
 
   describe "when parsing the output of 'sh ver'" do
-    ["c3750", "c3750-stack", "c4506e"].each do |switch_type|
+    ["c3750", "c3750-stack", "c4506e", "c6905"].each do |switch_type|
       it "should parse the output for switchtype #{switch_type}" do
         out = File.read(File.join(File.dirname(__FILE__), "fixtures/sh_ver/#{switch_type}.out"))
         expected = YAML.load_file(File.join(File.dirname(__FILE__), "fixtures/sh_ver/#{switch_type}.yaml"))
@@ -283,7 +290,7 @@ eos
     end
   end
   describe "when parsing the output of 'sh inventory'" do
-    ["c3750", "c3750-stack", "c4506e"].each do |switch_type|
+    ["c3750", "c3750-stack", "c4506e", "c6905"].each do |switch_type|
       it "should parse the output for switchtype #{switch_type}" do
         out = File.read(File.join(File.dirname(__FILE__), "fixtures/sh_inventory/#{switch_type}.out"))
         expected = YAML.load_file(File.join(File.dirname(__FILE__), "fixtures/sh_inventory/#{switch_type}.yaml"))
@@ -293,7 +300,7 @@ eos
     end
   end
   describe "when parsing the output of 'sh interfaces summary'" do
-    ["c3750", "c3750-stack", "c4506e"].each do |switch_type|
+    ["c3750", "c3750-stack", "c4506e", "c6905"].each do |switch_type|
       it "should parse the output for switchtype #{switch_type}" do
         out = File.read(File.join(File.dirname(__FILE__), "fixtures/sh_interfaces_summary/#{switch_type}.out"))
         expected = YAML.load_file(File.join(File.dirname(__FILE__), "fixtures/sh_interfaces_summary/#{switch_type}.yaml"))

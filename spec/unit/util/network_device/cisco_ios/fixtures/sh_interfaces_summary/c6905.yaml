@@ -1,0 +1,9 @@
+---
+interfaces_loopback_0: "1"
+interfaces_gigabitethernet_1: "48"
+interfaces_gigabitethernet_5: "3"
+interfaces_tengigabitethernet_5: "2"
+interfaces_vlan_1: "1"
+interfaces_vlan_852: "1"
+interfaces_vlan_900: "1"
+interfaces_vlan_1280: "1"
