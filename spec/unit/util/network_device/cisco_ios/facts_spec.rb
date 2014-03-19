@@ -112,6 +112,13 @@ eos
       "uptime" => "5 weeks, 6 days, 26 minutes",
       "uptime_seconds" => 3543960,
       "uptime_days" => 41
+    },
+    # ignore leading space, too
+    " c3750 uptime is 5 weeks, 6 days, 26 minutes" => {
+      "hostname" => "c3750",
+      "uptime" => "5 weeks, 6 days, 26 minutes",
+      "uptime_seconds" => 3543960,
+      "uptime_days" => 41
     }
   }.each do |ver, expected|
     it "should parse show ver output for device uptime facts" do
