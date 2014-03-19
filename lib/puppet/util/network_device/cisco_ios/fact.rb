@@ -9,10 +9,11 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Fact
     @name = name
     @idx = idx
     @evaluated = false
+    @downcase = false
     self.instance_eval(&block)
   end
 
-  define_value_method [:cmd, :match, :add, :remove, :before, :after, :match_param, :required]
+  define_value_method [:cmd, :match, :add, :remove, :before, :after, :match_param, :required, :downcase]
 
   def parse(txt)
     if self.match.is_a?(Proc)
@@ -21,6 +22,7 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Fact
       self.value = txt.scan(self.match).flatten[self.idx]
     end
     self.evaluated = true
+    self.value = self.value.downcase if downcase and self.value
     raise Puppet::Error, "Fact: #{self.name} is required but didn't evaluate to a proper Value" if self.required == true && (self.value.nil? || self.value.to_s.empty?)
   end
 

@@ -20,11 +20,13 @@ module Puppet::Util::NetworkDevice::Cisco_ios::PossibleFacts::Base
       match /^\s*([\w-]+)\s+uptime is (.*?)$/
       cmd "sh ver"
       after 'domain'
+      downcase true
     end
 
     base.register_param 'domain' do
       match /^ip\s+domain-name\s+(.*)$/
       cmd "sh run"
+      downcase true
     end
 
     base.register_param 'fqdn' do

@@ -72,7 +72,7 @@ eos
 
   {
     "Switch uptime is 1 year, 12 weeks, 6 days, 22 hours, 32 minutes" => {
-      "hostname" => "Switch",
+      "hostname" => "switch",
       "uptime" => "1 year, 12 weeks, 6 days, 22 hours, 32 minutes",
       "uptime_seconds" => 39393120,
       "uptime_days" => 455
@@ -137,6 +137,20 @@ ip domain-name example.com
 Switch>
 eos
       @facts.retrieve['fqdn'].should == 'c3750.example.com'
+    end
+
+    it "should lowercase hostname and fqdn" do
+      @transport.stubs(:command).with("sh ver", {:cache => true, :noop => false}).returns(<<eos)
+Switch>sh ver
+HOSTNAME uptime is 5 weeks, 6 days, 26 minutes
+Switch>
+eos
+      @transport.stubs(:command).with("sh run", {:cache => true, :noop => false}).returns(<<eos)
+Switch>sh run
+ip domain-name EXAMPLE.COM
+Switch>
+eos
+      @facts.retrieve['fqdn'].should == 'hostname.example.com'
     end
 
     it "should not create fqdn whithout domain" do
