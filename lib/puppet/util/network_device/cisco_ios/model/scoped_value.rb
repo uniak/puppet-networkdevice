@@ -52,11 +52,6 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Model::ScopedValue < Puppet::Util:
       Puppet.debug("Scope #{scope} not found for Param #{name}")
       return
     end
-    if self.match.is_a?(Proc)
-      self.value = self.match.call(result)
-    else
-      self.value = result.scan(self.match).flatten[self.idx]
-    end
-    self.evaluated = true
+    super(result)
   end
 end
