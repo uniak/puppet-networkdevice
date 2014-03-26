@@ -56,6 +56,7 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch < Puppet::Util::Netw
     :acl,
     :user,
     :vlan,
+    :vrf,
     :radius_server,
     :snmp_community,
     :snmp_host,
