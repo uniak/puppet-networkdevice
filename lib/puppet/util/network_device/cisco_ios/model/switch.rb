@@ -48,8 +48,8 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch < Puppet::Util::Netw
 
   def interface(name)
     int = params[:interfaces].value.find { |int| int.name == name }
-    int.evaluate_new_params
-    return int
+    int.evaluate_new_params if int
+    int
   end
 
   [ :aaa_group,
