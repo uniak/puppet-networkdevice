@@ -5,7 +5,9 @@ require 'puppet/util/network_device/cisco_ios/model/vrf'
 
 describe Puppet::Util::NetworkDevice::Cisco_ios::Model::Vrf do
   before(:each) do
-    @transport = stub_everything "transport"
+    @transport = mock("transport")
+    @transport.stubs(:command).with('conf t', anything)
+    @transport.stubs(:command).with('end', anything)
     @vrf = Puppet::Util::NetworkDevice::Cisco_ios::Model::Vrf.new(@transport, {}, { :name => 'TESTVRF12', :desc => 'TEST VRF 12', :ensure => :present })
   end
 
