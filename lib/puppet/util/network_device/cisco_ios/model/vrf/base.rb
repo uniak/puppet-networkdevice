@@ -26,7 +26,7 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Vrf::Base
         transport.command("description #{value}", :prompt => vrf_prompt)
       end
       remove do |transport, value|
-        transport.command("no description", :prompt => vrf_prompt)
+        transport.command("no description", :prompt => vrf_prompt) if value == :absent
       end
     end
     base.register_scoped :rd, vrf_scope do
