@@ -21,10 +21,20 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Vrf::Base
       match /^\s*description (.*?)\s*$/
       cmd 'sh run'
       add do |transport, value|
-        transport.command("description #{value}")
+        transport.command("description #{value}", :prompt => /\(config-vrf\)#\s?\z/n)
       end
       remove do |transport, value|
-        transport.command("no description")
+        transport.command("no description", :prompt => /\(config-vrf\)#\s?\z/n)
+      end
+    end
+    base.register_scoped :rd, vrf_scope do
+      match /^\s*rd (.*?)\s*$/
+      cmd 'sh run'
+      add do |transport, value|
+        transport.command("rd #{value}", :prompt => /\(config-vrf\)#\s?\z/n)
+      end
+      remove do |transport, value|
+        transport.command("no rd #{value}", :prompt => /\(config-vrf\)#\s?\z/n)
       end
     end
   end

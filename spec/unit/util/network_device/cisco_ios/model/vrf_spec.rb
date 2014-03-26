@@ -43,7 +43,8 @@ END
     end
 
     it 'should parse description of the desc param' do
-      @transport.expects(:command).with('sh run', {:cache => true, :noop => false}).returns(@vrf_config).twice
+      @transport.expects(:command).with('sh run', {:cache => true, :noop => false}).returns(@vrf_config).at_least(2)
+
       @vrf.evaluate_new_params
       @vrf.params[:desc].value.should == "TEST VRF 12"
     end
@@ -59,7 +60,7 @@ END
 
     it 'should update a vrf description' do
       @transport.expects(:command).with('ip vrf TESTVRF12', :prompt => /\(config-vrf\)#\s?\z/n)
-      @transport.expects(:command).with('description TEST VRF 42')
+      @transport.expects(:command).with('description TEST VRF 42', :prompt => /\(config-vrf\)#\s?\z/n)
       @transport.expects(:command).with('exit')
       @transport.stubs(:command).with("sh run", {:cache => true, :noop => false}).returns(@vrf_config)
       @vrf.evaluate_new_params
@@ -71,6 +72,26 @@ END
       @transport.stubs(:command).with("sh run", {:cache => true, :noop => false}).returns(@vrf_config)
       @vrf.evaluate_new_params
       @vrf.update({:ensure => :present}, {:ensure => :absent})
+    end
+
+    it 'should add a vrf with a route distinguisher' do
+      @transport.expects(:command).with('ip vrf NEWVRF', :prompt => /\(config-vrf\)#\s?\z/n)
+      @transport.expects(:command).with('rd 10.20.30.40:128', :prompt => /\(config-vrf\)#\s?\z/n)
+      @transport.expects(:command).with('exit')
+      @transport.stubs(:command).with("sh run", {:cache => true, :noop => false}).returns(@vrf_config)
+      @vrf = Puppet::Util::NetworkDevice::Cisco_ios::Model::Vrf.new(@transport, {}, { :name => 'NEWVRF', :ensure => :present, :rd => '10.20.30.40:128' })
+      @vrf.evaluate_new_params
+      @vrf.update({:ensure => :absent}, {:ensure => :present, :rd => '10.20.30.40:128'})
+    end
+
+    it 'should update a vrf route distinguisher' do
+      @transport.expects(:command).with('ip vrf TESTVRF12', :prompt => /\(config-vrf\)#\s?\z/n)
+      @transport.expects(:command).with('no rd 10.11.12.15:555', :prompt => /\(config-vrf\)#\s?\z/n)
+      @transport.expects(:command).with('rd 10.21.31.41:1234', :prompt => /\(config-vrf\)#\s?\z/n)
+      @transport.expects(:command).with('exit')
+      @transport.stubs(:command).with("sh run", {:cache => true, :noop => false}).returns(@vrf_config)
+      @vrf.evaluate_new_params
+      @vrf.update({:ensure => :present, :rd => '10.11.12.15:555'}, {:ensure => :present, :rd => '10.21.31.41:1234'})
     end
   end
 end
