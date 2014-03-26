@@ -19,12 +19,12 @@ Puppet::Type.newtype(:cisco_vrf) do
     newvalues(/^(\d+|\d+\.\d+\.\d+\.\d+):(\d+)$/)
   end
 
-  newproperty(:export) do
+  newproperty(:export, :array_matching => :all) do
     # allowed values are of the form X:Y, where X is either an IP or 1-65535 and Y is 1-65535
     newvalues(/^(\d+|\d+\.\d+\.\d+\.\d+):(\d+)$/)
   end
 
-  newproperty(:import) do
+  newproperty(:import, :array_matching => :all) do
     # allowed values are of the form X:Y, where X is either an IP or 1-65535 and Y is 1-65535
     newvalues(/^(\d+|\d+\.\d+\.\d+\.\d+):(\d+)$/)
   end

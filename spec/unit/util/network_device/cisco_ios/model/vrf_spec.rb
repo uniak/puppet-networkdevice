@@ -19,6 +19,7 @@ ip vrf TEST1
  description TEST 1
  rd 10.11.12.13:123
  route-target export 123:128
+ route-target export 124:128
  route-target import 123:128
 !
 ip vrf TESTVRF12
@@ -26,6 +27,7 @@ ip vrf TESTVRF12
  rd 10.11.12.15:555
  route-target export 555:128
  route-target import 555:128
+ route-target import 556:128
 !
 ip vrf TEST3
 !
@@ -44,11 +46,32 @@ END
       @vrf.params[:desc].scope_name.should == 'TESTVRF12'
     end
 
-    it 'should parse description of the desc param' do
+    it 'should parse value of the desc param' do
       @transport.expects(:command).with('sh run', {:cache => true, :noop => false}).returns(@vrf_config).at_least(2)
 
       @vrf.evaluate_new_params
       @vrf.params[:desc].value.should == "TEST VRF 12"
+    end
+
+    it 'should parse value of the rd param' do
+      @transport.expects(:command).with('sh run', {:cache => true, :noop => false}).returns(@vrf_config).at_least(2)
+
+      @vrf.evaluate_new_params
+      @vrf.params[:rd].value.should == "10.11.12.15:555"
+    end
+
+    it 'should parse value of the export param' do
+      @transport.expects(:command).with('sh run', {:cache => true, :noop => false}).returns(@vrf_config).at_least(2)
+
+      @vrf.evaluate_new_params
+      @vrf.params[:export].value.should == [ '555:128' ]
+    end
+
+    it 'should parse value of the import param' do
+      @transport.expects(:command).with('sh run', {:cache => true, :noop => false}).returns(@vrf_config).at_least(2)
+
+      @vrf.evaluate_new_params
+      @vrf.params[:import].value.should == [ '555:128', '556:128' ]
     end
 
     it 'should add a vrf with default description' do
@@ -94,6 +117,29 @@ END
       @transport.stubs(:command).with("sh run", {:cache => true, :noop => false}).returns(@vrf_config)
       @vrf.evaluate_new_params
       @vrf.update({:ensure => :present, :rd => '10.11.12.15:555'}, {:ensure => :present, :rd => '10.21.31.41:1234'})
+    end
+
+    it 'should update the vrf import list' do
+      @transport.expects(:command).with('ip vrf TESTVRF12', :prompt => /\(config-vrf\)#\s?\z/n)
+      @transport.expects(:command).with('no route-target import 555:128', :prompt => /\(config-vrf\)#\s?\z/n)
+      @transport.expects(:command).with('route-target import 557:128', :prompt => /\(config-vrf\)#\s?\z/n)
+      @transport.expects(:command).with('exit')
+      @transport.stubs(:command).with("sh run", {:cache => true, :noop => false}).returns(@vrf_config)
+      @vrf.evaluate_new_params
+      @vrf.update({:ensure => :present, :import => [ '555:128', '556:128' ] },
+                  {:ensure => :present, :import => [ '557:128', '556:128' ]})
+    end
+
+    it 'should update the vrf export list' do
+      @transport.expects(:command).with('ip vrf TESTVRF12', :prompt => /\(config-vrf\)#\s?\z/n)
+      @transport.expects(:command).with('no route-target export 555:128', :prompt => /\(config-vrf\)#\s?\z/n)
+      @transport.expects(:command).with('route-target export 556:128', :prompt => /\(config-vrf\)#\s?\z/n)
+      @transport.expects(:command).with('route-target export 557:128', :prompt => /\(config-vrf\)#\s?\z/n)
+      @transport.expects(:command).with('exit')
+      @transport.stubs(:command).with("sh run", {:cache => true, :noop => false}).returns(@vrf_config)
+      @vrf.evaluate_new_params
+      @vrf.update({:ensure => :present, :export => [ '555:128' ] },
+                  {:ensure => :present, :export => [ '556:128', '557:128' ]})
     end
   end
 end
