@@ -83,7 +83,9 @@ class Puppet::Util::NetworkDevice::Transport_ios::Sshios < Puppet::Util::Network
     end
     line.split(/\n/).each do |l|
       Puppet.debug "SSH_IOS received: #{l}" if Puppet[:debug]
-      raise Puppet::Error, "Executed invalid Command! For a detailed output add --debug to the next Puppet run!" if line.match(/^% Invalid input detected at '\^' marker\.$/n)
+      if line.match(/^% /)
+        raise Puppet::Error, "Error received: #{line.inspect}"
+      end
     end
     line
   end
