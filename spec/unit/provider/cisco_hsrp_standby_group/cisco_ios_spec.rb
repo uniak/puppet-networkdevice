@@ -38,9 +38,13 @@ describe provider_class do
     provider_class.should respond_to(:instances)
   end
 
+  it "should have an prefetch method" do
+    provider_class.should respond_to(:prefetch)
+  end
+
   describe "when looking up instances at prefetch" do
     before do
-      @device.stubs(:command).yields(@device)
+      provider_class.stubs(:device).yields(@device)
     end
 
     it "should delegate to the device interface fetcher" do

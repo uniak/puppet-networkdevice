@@ -31,7 +31,7 @@ END
   end
 
   before(:each) do
-    @transport = stub_everything "transport"
+    @transport = stub "transport"
     @hsrp_standby_group = Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup.new(@transport, {}, {
         :if_name => interface_name,
         :group => standby_group
@@ -66,8 +66,23 @@ END
       end
 
       it 'should find the authentication param' do
-        puts @hsrp_standby_group.params[:authentication].inspect
         @hsrp_standby_group.params[:authentication].value.should == 'abcdefgh12345'
+      end
+    end
+    
+    describe "configuring the device" do
+      before(:each) do
+        @transport.expects(:command).with('sh run', {:cache => true, :noop => false}).returns(interface_config).at_least(1)
+        @hsrp_standby_group.evaluate_new_params
+      end
+
+      it 'should find the authentication param' do
+        @transport.expects(:command).with('conf t', anything)
+        @transport.expects(:command).with('interface Vlan900', anything)
+        @transport.expects(:command).with('standby 1 authentication 1234', anything)
+        @transport.stubs(:command).with('exit', anything)
+        @transport.stubs(:command).with('end', anything)
+        @hsrp_standby_group.update({}, {:authentication => '1234'})
       end
     end
   end
