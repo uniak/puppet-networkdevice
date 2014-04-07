@@ -39,8 +39,7 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Model::ScopedValue < Puppet::Util:
       munge_scope(content,name)
     end.reduce(:+) || []
 
-    munged.collect do |pair|
-      (content,name) = pair
+    munged.collect do |content,name|
       content if name == @scope_name
     end.reject { |v| v.nil? }.first
   end
