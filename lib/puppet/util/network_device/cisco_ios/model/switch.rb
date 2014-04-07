@@ -54,9 +54,9 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch < Puppet::Util::Netw
   end
 
   def hsrp_standby_group(name)
-    int = params[:hsrp_standby_groups].value.find { |int| int.name == name }
-    int.evaluate_new_params if int
-    int
+    grp = params[:hsrp_standby_groups].value.find { |g| g.name == name } || Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup.new(transport, facts, {:name => name})
+    grp.evaluate_new_params
+    grp
   end
 
   [ :aaa_group,
