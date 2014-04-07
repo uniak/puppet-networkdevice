@@ -238,5 +238,13 @@ Puppet::Type.newtype(:cisco_interface) do
     defaultto(:absent)
     newvalues(:absent, :present)
   end
+  
+  newproperty(:ip_vrf_forwarding) do
+    desc "VRF forwarding function"
+
+    defaultto(:absent)
+    newvalues(:absent, /^\w+$/)
+  end
+
 end
 

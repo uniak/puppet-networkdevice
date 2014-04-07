@@ -4,9 +4,12 @@ require 'puppet/util/network_device'
 require 'puppet/util/network_device/cisco_ios/model/interface'
 
 describe Puppet::Util::NetworkDevice::Cisco_ios::Model::Interface do
+
+  let(:interface_name) { 'FastEthernet2/0/2' }
+
   before(:each) do
     @transport = stub_everything "transport"
-    @interface = Puppet::Util::NetworkDevice::Cisco_ios::Model::Interface.new(@transport, {}, { :name => 'FastEthernet2/0/2' })
+    @interface = Puppet::Util::NetworkDevice::Cisco_ios::Model::Interface.new(@transport, {}, { :name => interface_name })
   end
 
   describe 'when working with interface params' do
@@ -44,6 +47,15 @@ interface FastEthernet2/0/3
  switchport mode trunk
  ip dhcp snooping limit rate 5
 !
+interface Vlan900
+ description TEST_VLAN900
+ ip vrf forwarding TEST_VRF
+ ip address 10.16.18.97 255.255.255.224
+ ip helper-address 1.1.2.2
+ no ip redirects
+ no ip unreachables
+ ip flow ingress
+!
 END
     end
 
@@ -59,10 +71,21 @@ END
       @interface.params[:description].scope_name.should == 'FastEthernet2/0/2'
     end
 
-    it 'should parse the description param' do
-      @transport.stubs(:command).with('sh run', {:cache => true, :noop => false}).returns(@interface_config)
-      @interface.evaluate_new_params
-      @interface.params[:description].value.should == 'foreman prod host'
+    describe "parsing the configuration" do
+      let(:interface_name) { 'Vlan900' }
+
+      before(:each) do
+        @transport.stubs(:command).with('sh run', {:cache => true, :noop => false}).returns(@interface_config)
+        @interface.evaluate_new_params
+      end
+
+      it 'should find the description param' do
+        @interface.params[:description].value.should == 'TEST_VLAN900'
+      end
+    
+      it 'should find the ip_vrf_forwarding param' do
+        @interface.params[:ip_vrf_forwarding].value.should == 'TEST_VRF'
+      end
     end
 
     it 'should not enter interface configuration mode if nothings changed' do

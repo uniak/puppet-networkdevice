@@ -136,6 +136,8 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Interface::Base
       end
     end
 
+    ifprop(base, :ip_vrf_forwarding, "ip vrf forwarding")
+
     if base.facts && base.facts['canonicalized_hardwaremodel'] == 'c6509'
       base.register_new_module('c6509', 'hardware')
     end
