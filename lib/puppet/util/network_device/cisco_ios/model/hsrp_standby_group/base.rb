@@ -19,9 +19,7 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup::Base
           group = matches[1]
           result["#{scope_name}/#{group}"] << l
         end
-        retval = result.keys.collect  { |k| [result[k].join("\n"),k ] }
-        puts "matched scopes = #{retval.inspect}"
-        retval
+        result.keys.collect  { |k| [result[k].join("\n"),k ] }
       end
       add do |transport, value|
         transport.command("standby #{base.group} #{base_command} #{value}")
