@@ -55,6 +55,7 @@ interface Vlan900
  no ip redirects
  no ip unreachables
  ip flow ingress
+ standby delay reload 120
 !
 END
     end
@@ -85,6 +86,10 @@ END
     
       it 'should find the ip_vrf_forwarding param' do
         @interface.params[:ip_vrf_forwarding].value.should == 'TEST_VRF'
+      end
+
+      it 'should find the standby_delay_reload param' do
+        @interface.params[:standby_delay_reload].value.should == '120'
       end
     end
 

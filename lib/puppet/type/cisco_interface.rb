@@ -246,5 +246,12 @@ Puppet::Type.newtype(:cisco_interface) do
     newvalues(:absent, /^\w+$/)
   end
 
+  newproperty(:standby_delay_reload) do
+    desc "HSRP initialisation delay after a configuration reload"
+
+    defaultto(:absent)
+    newvalues(:absent, /^\d+$/)
+  end
+
 end
 

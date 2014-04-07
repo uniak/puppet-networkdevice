@@ -25,7 +25,7 @@ describe Puppet::Type.type(:cisco_interface) do
    :port_security_aging_time, :port_security_aging_type,
    :spanning_tree, :spanning_tree_guard, :spanning_tree_cost,
    :spanning_tree_port_priority, :dhcp_snooping_limit_rate,
-   :ip_vrf_forwarding
+   :ip_vrf_forwarding, :standby_delay_reload
   ].each do |p|
   it "should have a #{p} property" do
       described_class.attrtype(p).should == :property
