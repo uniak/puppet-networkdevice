@@ -1,6 +1,7 @@
 require 'puppet/util/network_device/cisco_ios/model'
 require 'puppet/util/network_device/cisco_ios/model/aaa_group'
 require 'puppet/util/network_device/cisco_ios/model/acl'
+require 'puppet/util/network_device/cisco_ios/model/hsrp_standby_group'
 require 'puppet/util/network_device/cisco_ios/model/interface'
 require 'puppet/util/network_device/cisco_ios/model/line'
 require 'puppet/util/network_device/cisco_ios/model/model_value'
@@ -166,6 +167,18 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
     base.register_simple(:errdisable_recovery_interval, /^errdisable recovery interval (\d+)\s*$/, 'sh run', 'errdisable recovery interval')
 
     base.register_model(:interfaces, Puppet::Util::NetworkDevice::Cisco_ios::Model::Interface, /^interface\s+(\S+)\r*$/, 'sh run')
+
+    base.register_param(:hsrp_standby_groups, Puppet::Util::NetworkDevice::Cisco_ios::Model::ModelValue) do
+      model Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup
+      cmd 'sh run'
+      match do |txt|
+        txt.scan(/^interface\s+(\S+)(.*?)^!/m).collect do |if_name,body|
+          body.scan(/^\s*standby\s+(\d+)\s*/m).collect do |group|
+            "#{if_name}/#{group}"
+          end
+        end.flatten
+      end
+    end
 
     base.register_model(:aaa_group, Puppet::Util::NetworkDevice::Cisco_ios::Model::Aaa_group, /^aaa group server (?:radius|tacacs\+)\s+(\S+)$/, 'sh run')
 

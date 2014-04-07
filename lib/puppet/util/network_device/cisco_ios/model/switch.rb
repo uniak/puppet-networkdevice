@@ -4,6 +4,7 @@ require 'puppet/util/network_device/cisco_ios/model/acl'
 require 'puppet/util/network_device/cisco_ios/model/archive'
 require 'puppet/util/network_device/cisco_ios/model/base'
 require 'puppet/util/network_device/cisco_ios/model/generic_value'
+require 'puppet/util/network_device/cisco_ios/model/hsrp_standby_group'
 require 'puppet/util/network_device/cisco_ios/model/interface'
 require 'puppet/util/network_device/cisco_ios/model/radius_server'
 require 'puppet/util/network_device/cisco_ios/model/snmp'
@@ -48,6 +49,12 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch < Puppet::Util::Netw
 
   def interface(name)
     int = params[:interfaces].value.find { |int| int.name == name }
+    int.evaluate_new_params if int
+    int
+  end
+
+  def hsrp_standby_group(name)
+    int = params[:hsrp_standby_groups].value.find { |int| int.name == name }
     int.evaluate_new_params if int
     int
   end
