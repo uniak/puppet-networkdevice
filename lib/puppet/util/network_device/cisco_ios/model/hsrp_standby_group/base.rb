@@ -42,6 +42,12 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup::Base
       match do |txt|
         txt.match(/^\s*standby\s+\d+\s+preempt$/) ? :present : :absent
       end
+      add do |transport, value|
+        transport.command("standby #{base.standby_group} preempt")
+      end
+      remove do |transport, old_value|
+        transport.command("no standby #{base.standby_group} preempt")
+      end
     end
     hsgprop(base, :preempt_delay_minimum, "preempt delay minimum")
     hsgprop(base, :preempt_delay_reload, "preempt delay reload")
