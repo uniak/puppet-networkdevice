@@ -8,6 +8,7 @@ describe Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup do
   let(:interface_name) { 'Vlan900' }
   let(:standby_group) { '1' }
   let(:the_name) { "#{interface_name}/#{standby_group}" }
+  let(:transport) { stub "transport" }
   let(:interface_config) do
     result = <<END
 interface Vlan900
@@ -30,15 +31,41 @@ interface Vlan900
 END
   end
 
-  before(:each) do
-    @transport = stub "transport"
-    @hsrp_standby_group = Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup.new(@transport, {}, {
-        :if_name => interface_name,
-        :group => standby_group
-        })
+  describe 'when initialising' do
+    it 'should accept and parse a single title' do
+      group = Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup.new(transport, {}, { :name => the_name })
+      group.name.should == the_name
+      group.if_name.should == interface_name
+      group.group.should == standby_group
+    end
+    it 'should accept separate namevar specifications' do
+      group = Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup.new(transport, {}, { :if_name => interface_name, :group => standby_group })
+      group.name.should == the_name
+      group.if_name.should == interface_name
+      group.group.should == standby_group
+    end
+    it 'should apply group overrides to a parsed title' do
+      group = Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup.new(transport, {}, { :name => the_name, :group => '4' })
+      group.name.should == "#{interface_name}/4"
+      group.if_name.should == interface_name
+      group.group.should == '4'
+    end
+    it 'should apply interface overrides to a parsed title' do
+      group = Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup.new(transport, {}, { :name => the_name, :if_name => 'Vlan888' })
+      group.name.should == "Vlan888/#{standby_group}"
+      group.if_name.should == 'Vlan888'
+      group.group.should == standby_group
+    end
   end
 
   describe 'when working with hsrp_standby_group params' do
+    before(:each) do
+      @hsrp_standby_group = Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup.new(transport, {}, {
+          :if_name => interface_name,
+          :group => standby_group
+          })
+    end
+
     it 'should initialize various base params' do
       @hsrp_standby_group.params.should_not == be_empty
     end
@@ -61,7 +88,7 @@ END
 
     describe "parsing the configuration" do
       before(:each) do
-        @transport.expects(:command).with('sh run', {:cache => true, :noop => false}).returns(interface_config).at_least(1)
+        transport.expects(:command).with('sh run', {:cache => true, :noop => false}).returns(interface_config).at_least(1)
         @hsrp_standby_group.evaluate_new_params
       end
 
@@ -72,16 +99,16 @@ END
     
     describe "configuring the device" do
       before(:each) do
-        @transport.expects(:command).with('sh run', {:cache => true, :noop => false}).returns(interface_config).at_least(1)
+        transport.expects(:command).with('sh run', {:cache => true, :noop => false}).returns(interface_config).at_least(1)
         @hsrp_standby_group.evaluate_new_params
       end
 
       it 'should find the authentication param' do
-        @transport.expects(:command).with('conf t', anything)
-        @transport.expects(:command).with('interface Vlan900', anything)
-        @transport.expects(:command).with('standby 1 authentication 1234', anything)
-        @transport.stubs(:command).with('exit', anything)
-        @transport.stubs(:command).with('end', anything)
+        transport.expects(:command).with('conf t', anything)
+        transport.expects(:command).with('interface Vlan900', anything)
+        transport.expects(:command).with('standby 1 authentication 1234', anything)
+        transport.stubs(:command).with('exit', anything)
+        transport.stubs(:command).with('end', anything)
         @hsrp_standby_group.update({}, {:authentication => '1234'})
       end
     end

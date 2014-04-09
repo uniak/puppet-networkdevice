@@ -11,7 +11,7 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup < Puppet::
     "#{if_name}/#{group}"
   end
 
-  def self.parse_title(t)
+  def self.parse_title(input)
     matches = /^([-_\w\/]+)\/(\d+)$/.match(input)
     return [matches[1].to_s, matches[2].to_s] if matches
   end
@@ -22,7 +22,7 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup < Puppet::
     @params         ||= {}
     @name           = options[:name] if options.key? :name
     # initialise if_name/group from name, if available
-    (@if_name, @group) = parse_title(@name) if @name
+    (@if_name, @group) = self.class.parse_title(@name) if @name
     @if_name        = options[:if_name] if options.key? :if_name
     @group          = options[:group] if options.key? :group
 
