@@ -138,6 +138,8 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Interface::Base
 
     ifprop(base, :ip_vrf_forwarding, "ip vrf forwarding")
 
+    ifprop(base, :ip_address, "ip address")
+
     ifprop(base, :standby_delay_reload, "standby delay reload")
 
     if base.facts && base.facts['canonicalized_hardwaremodel'] == 'c6509'

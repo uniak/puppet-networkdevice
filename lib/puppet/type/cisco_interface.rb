@@ -246,6 +246,13 @@ Puppet::Type.newtype(:cisco_interface) do
     newvalues(:absent, /^\w+$/)
   end
 
+  newproperty(:ip_address) do
+    desc "The IP address of this interface. Format is \"IP NETMASK\"."
+
+    defaultto(:absent)
+    newvalues(:absent, /^\d+\.\d+\.\d+\.\d+ \d+\.\d+\.\d+\.\d+$/)
+  end
+
   newproperty(:standby_delay_reload) do
     desc "HSRP initialisation delay after a configuration reload"
 

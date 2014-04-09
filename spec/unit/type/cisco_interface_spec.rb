@@ -25,7 +25,7 @@ describe Puppet::Type.type(:cisco_interface) do
    :port_security_aging_time, :port_security_aging_type,
    :spanning_tree, :spanning_tree_guard, :spanning_tree_cost,
    :spanning_tree_port_priority, :dhcp_snooping_limit_rate,
-   :ip_vrf_forwarding, :standby_delay_reload
+   :ip_vrf_forwarding, :ip_address, :standby_delay_reload
   ].each do |p|
   it "should have a #{p} property" do
       described_class.attrtype(p).should == :property
@@ -339,6 +339,7 @@ describe Puppet::Type.type(:cisco_interface) do
         end
       end
     end
+    
     describe :spanning_tree_bpduguard do
       [:present, :absent].each do |value|
         it "should accept #{value.inspect}" do
@@ -350,6 +351,31 @@ describe Puppet::Type.type(:cisco_interface) do
         expect { described_class.new(:name => name, :spanning_tree_bpduguard => 'foobar') }.to raise_error
       end
     end
+    
+    describe :ip_vrf_forwarding do
+      [:absent, "TEST"].each do |value|
+        it "should accept #{value.inspect}" do
+          described_class.new(:name => name, :ip_vrf_forwarding => value)
+        end
+      end
+
+      it "should not accept anything else" do
+        expect { described_class.new(:name => name, :ip_vrf_forwarding => 'foo bar') }.to raise_error
+      end
+    end
+    
+    describe :ip_address do
+      [:absent, "1.1.1.1 255.255.255.240"].each do |value|
+        it "should accept #{value.inspect}" do
+          described_class.new(:name => name, :ip_address => value)
+        end
+      end
+
+      it "should not accept anything else" do
+        expect { described_class.new(:name => name, :ip_address => 'foo bar') }.to raise_error
+      end
+    end
+    
     describe :dhcp_snooping_limit_rate do
       [:absent, 1, 5, 10].each do |value|
         it "should accept #{value.inspect}" do

@@ -88,6 +88,10 @@ END
         @interface.params[:ip_vrf_forwarding].value.should == 'TEST_VRF'
       end
 
+      it 'should find the ip_address param' do
+        @interface.params[:ip_address].value.should == '10.16.18.97 255.255.255.224'
+      end
+
       it 'should find the standby_delay_reload param' do
         @interface.params[:standby_delay_reload].value.should == '120'
       end
