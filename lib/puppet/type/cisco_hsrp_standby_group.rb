@@ -27,7 +27,7 @@ Puppet::Type.newtype(:cisco_hsrp_standby_group) do
   end
   
   def name
-    "#{self[:parent_interface]}.#{self[:standby_group]}"
+    "#{self[:parent_interface]}/#{self[:standby_group]}"
   end
 
   newparam(:name) do

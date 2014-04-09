@@ -172,9 +172,9 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::Switch::Base
       model Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup
       cmd 'sh run'
       match do |txt|
-        txt.scan(/^interface\s+(\S+)(.*?)^!/m).collect do |if_name,body|
-          body.scan(/^\s*standby\s+(\d+)\s*/m).collect do |group|
-            "#{if_name}/#{group}"
+        txt.scan(/^interface\s+(\S+)(.*?)^!/m).collect do |parent_interface,body|
+          body.scan(/^\s*standby\s+(\d+)\s*/m).collect do |standby_group|
+            new_model(:name => "#{parent_interface}/#{standby_group}", :parent_interface => parent_interface, :standby_group => standby_group) 
           end
         end.flatten
       end

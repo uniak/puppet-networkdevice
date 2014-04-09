@@ -21,6 +21,34 @@ describe Puppet::Type.type(:cisco_hsrp_standby_group) do
     end
   end
 
+  describe 'when initialising' do
+    it 'should accept and parse a single title' do
+      group = described_class.new(:name => name)
+      group.name.should == name
+      group[:parent_interface].should == parent_interface
+      group[:standby_group].should == standby_group
+    end
+    it 'should accept separate namevar specifications' do
+      group = described_class.new(:name => 'The Thing', :parent_interface => parent_interface, :standby_group => standby_group)
+      group.title.should == 'The Thing'
+      group.name.should == name
+      group[:parent_interface].should == parent_interface
+      group[:standby_group].should == standby_group
+    end
+    it 'should apply group overrides to a parsed title' do
+      group = described_class.new(:name => name, :standby_group => '4')
+      group.name.should == "#{parent_interface}/4"
+      group[:parent_interface].should == parent_interface
+      group[:standby_group].should == '4'
+    end
+    it 'should apply interface overrides to a parsed title' do
+      group = described_class.new(:name => name, :parent_interface => 'Vlan888')
+      group.name.should == "Vlan888/#{standby_group}"
+      group[:parent_interface].should == 'Vlan888'
+      group[:standby_group].should == standby_group
+    end
+  end
+
   [:ip,
    :timers,
    :authentication,

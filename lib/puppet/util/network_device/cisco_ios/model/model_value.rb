@@ -21,4 +21,8 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Model::ModelValue < Puppet::Util::
 
   def update(transport, old_value)
   end
+  
+  def new_model(*args)
+    model.new(@transport, @facts, Hash[*args])
+  end
 end
