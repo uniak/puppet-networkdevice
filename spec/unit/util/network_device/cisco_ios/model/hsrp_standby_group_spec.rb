@@ -24,6 +24,7 @@ interface Vlan900
  standby 1 timers msec 250 msec 750
  standby 1 authentication abcdefgh12345
  standby 1 priority 200
+ standby 1 preempt
  standby 1 preempt delay minimum 60
  standby 1 track TenGigabitEthernet5/1 30
  standby 1 track TenGigabitEthernet5/2 30
@@ -94,6 +95,14 @@ END
 
       it 'should find the authentication param' do
         @hsrp_standby_group.params[:authentication].value.should == 'abcdefgh12345'
+      end
+
+      it 'should find the preempt param' do
+        @hsrp_standby_group.params[:preempt].value.should == :present
+      end
+
+      it 'should find the preempt delay minimum param' do
+        @hsrp_standby_group.params[:preempt_delay_minimum].value.should == '60'
       end
     end
     
