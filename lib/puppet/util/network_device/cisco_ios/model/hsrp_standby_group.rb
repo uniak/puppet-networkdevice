@@ -5,10 +5,10 @@ require 'puppet/util/network_device/cisco_ios/model/scoped_value'
 
 class Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup < Puppet::Util::NetworkDevice::Cisco_ios::Model::Base
 
-  attr_reader :params, :if_name, :group
+  attr_reader :params, :parent_interface, :standby_group
 
   def name
-    "#{if_name}/#{group}"
+    "#{parent_interface}/#{standby_group}"
   end
 
   def self.parse_title(input)
@@ -21,10 +21,10 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup < Puppet::
     # Initialize some defaults
     @params         ||= {}
     @name           = options[:name] if options.key? :name
-    # initialise if_name/group from name, if available
-    (@if_name, @group) = self.class.parse_title(@name) if @name
-    @if_name        = options[:if_name] if options.key? :if_name
-    @group          = options[:group] if options.key? :group
+    # initialise parent_interface/standby_interface from name, if available
+    (@parent_interface, @standby_group) = self.class.parse_title(@name) if @name
+    @parent_interface        = options[:parent_interface] if options.key? :parent_interface
+    @standby_group           = options[:standby_group] if options.key? :standby_group
 
     # Register all needed Modules based on the availiable Facts
     register_modules
@@ -48,7 +48,7 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup < Puppet::
 
   def before_update
     super
-    transport.command("interface #{@if_name}", :prompt => /\(config-if\)#\z/n)
+    transport.command("interface #{@parent_interface}", :prompt => /\(config-if\)#\z/n)
   end
 
   def after_update

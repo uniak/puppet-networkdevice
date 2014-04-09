@@ -3,9 +3,9 @@ require 'spec_helper'
 
 describe Puppet::Type.type(:cisco_hsrp_standby_group) do
 
-  let(:interface_name) { 'Vlan900' }
+  let(:parent_interface) { 'Vlan900' }
   let(:standby_group) { '1' }
-  let(:name) { "#{interface_name}/#{standby_group}" }
+  let(:name) { "#{parent_interface}/#{standby_group}" }
 
   it "should have a 'name' parameter'" do
     described_class.new(:name => name)[:name].should == name
@@ -15,7 +15,7 @@ describe Puppet::Type.type(:cisco_hsrp_standby_group) do
     described_class.new(:name => name).must be_appliable_to_device
   end
 
-  [:name].each do |p|
+  [:name, :parent_interface, :standby_group].each do |p|
     it "should have a #{p} param" do
       described_class.attrtype(p).should == :param
     end

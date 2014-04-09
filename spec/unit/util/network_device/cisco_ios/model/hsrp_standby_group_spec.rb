@@ -5,9 +5,9 @@ require 'puppet/util/network_device/cisco_ios/model/hsrp_standby_group'
 
 describe Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup do
 
-  let(:interface_name) { 'Vlan900' }
+  let(:parent_interface) { 'Vlan900' }
   let(:standby_group) { '1' }
-  let(:the_name) { "#{interface_name}/#{standby_group}" }
+  let(:the_name) { "#{parent_interface}/#{standby_group}" }
   let(:transport) { stub "transport" }
   let(:interface_config) do
     result = <<END
@@ -35,34 +35,34 @@ END
     it 'should accept and parse a single title' do
       group = Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup.new(transport, {}, { :name => the_name })
       group.name.should == the_name
-      group.if_name.should == interface_name
-      group.group.should == standby_group
+      group.parent_interface.should == parent_interface
+      group.standby_group.should == standby_group
     end
     it 'should accept separate namevar specifications' do
-      group = Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup.new(transport, {}, { :if_name => interface_name, :group => standby_group })
+      group = Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup.new(transport, {}, { :parent_interface => parent_interface, :standby_group => standby_group })
       group.name.should == the_name
-      group.if_name.should == interface_name
-      group.group.should == standby_group
+      group.parent_interface.should == parent_interface
+      group.standby_group.should == standby_group
     end
     it 'should apply group overrides to a parsed title' do
-      group = Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup.new(transport, {}, { :name => the_name, :group => '4' })
-      group.name.should == "#{interface_name}/4"
-      group.if_name.should == interface_name
-      group.group.should == '4'
+      group = Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup.new(transport, {}, { :name => the_name, :standby_group => '4' })
+      group.name.should == "#{parent_interface}/4"
+      group.parent_interface.should == parent_interface
+      group.standby_group.should == '4'
     end
     it 'should apply interface overrides to a parsed title' do
-      group = Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup.new(transport, {}, { :name => the_name, :if_name => 'Vlan888' })
+      group = Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup.new(transport, {}, { :name => the_name, :parent_interface => 'Vlan888' })
       group.name.should == "Vlan888/#{standby_group}"
-      group.if_name.should == 'Vlan888'
-      group.group.should == standby_group
+      group.parent_interface.should == 'Vlan888'
+      group.standby_group.should == standby_group
     end
   end
 
   describe 'when working with hsrp_standby_group params' do
     before(:each) do
       @hsrp_standby_group = Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup.new(transport, {}, {
-          :if_name => interface_name,
-          :group => standby_group
+          :parent_interface => parent_interface,
+          :standby_group => standby_group
           })
     end
 
@@ -74,12 +74,12 @@ END
       @hsrp_standby_group.name.should == the_name
     end
 
-    it 'should set the if_name from the options' do
-      @hsrp_standby_group.if_name.should == interface_name
+    it 'should set the parent_interface from the options' do
+      @hsrp_standby_group.parent_interface.should == parent_interface
     end
 
     it 'should set the group from the options' do
-      @hsrp_standby_group.group.should == standby_group
+      @hsrp_standby_group.standby_group.should == standby_group
     end
 
     it 'should set the scope_name on the authentication param' do

@@ -7,7 +7,7 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup::Base
   def self.hsgprop(base, param, base_command = param, &block)
     base.register_scoped param, /^(interface\s+(\S+).*?)^!/m do
       cmd 'sh run'
-      match /^\s*standby #{base.group} #{base_command}\s+(.*?)\s*$/
+      match /^\s*standby #{base.standby_group} #{base_command}\s+(.*?)\s*$/
       scope_match do |scope, scope_name|
         # puts "scope_name=#{scope_name}; scope=#{scope.inspect}"
         result = Hash.new { |hash,key| hash[key] = [] }
@@ -22,10 +22,10 @@ module Puppet::Util::NetworkDevice::Cisco_ios::Model::HsrpStandbyGroup::Base
         result.keys.collect  { |k| [result[k].join("\n"),k ] }
       end
       add do |transport, value|
-        transport.command("standby #{base.group} #{base_command} #{value}")
+        transport.command("standby #{base.standby_group} #{base_command} #{value}")
       end
       remove do |transport, old_value|
-        transport.command("no standby #{base.group} #{base_command} #{old_value}")
+        transport.command("no standby #{base.standby_group} #{base_command} #{old_value}")
       end
       # Pass the Block to a Helper Method so we are in the right Scope
       # when evaluating the block

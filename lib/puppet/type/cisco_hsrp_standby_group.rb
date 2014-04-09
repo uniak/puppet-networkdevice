@@ -9,7 +9,7 @@ Puppet::Type.newtype(:cisco_hsrp_standby_group) do
 
   def self.title_patterns
     [
-      [ /^([-_\w]+)\/(\d+)$/ , [ [:parent_interface ], [:hsrp_standby_group] ] ],
+      [ /^([-_\w]+)\/(\d+)$/ , [ [:parent_interface ], [:standby_group] ] ],
       [ //, [] ]
     ]
   end
@@ -20,14 +20,14 @@ Puppet::Type.newtype(:cisco_hsrp_standby_group) do
     isnamevar
   end
 
-  newparam(:hsrp_standby_group) do
+  newparam(:standby_group) do
     desc "The number of this HSRP standby group, automatically parsed from the title."
     newvalues(/^\d+$/)
     isnamevar
   end
   
   def name
-    "#{self[:parent_interface]}.#{self[:hsrp_standby_group]}"
+    "#{self[:parent_interface]}.#{self[:standby_group]}"
   end
 
   newparam(:name) do
