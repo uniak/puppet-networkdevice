@@ -3,7 +3,7 @@ require 'puppet/util/network_device/cisco_ios/possible_facts'
 module Puppet::Util::NetworkDevice::Cisco_ios::PossibleFacts::Base
   def self.register(base)
     base.register_param ['hardwaremodel', 'processor', 'hardwarerevision', 'memorysize'] do
-      match /[cC]isco ([\w-]+) (?:\(([\w-]+)\) processor )?\(revision (.+)\) with (\d+[KMG])(?:\/(\d+[KMG]))? bytes of memory\./
+      match /[cC]isco ([\S-]+) (?:\(([\w-]+)\) processor )?\(revision (.+)\) with (\d+[KMG])(?:\/(\d+[KMG]))? bytes of memory\./
       cmd "sh ver"
     end
 

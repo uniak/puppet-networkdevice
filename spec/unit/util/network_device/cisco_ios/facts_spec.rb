@@ -65,7 +65,14 @@ describe Puppet::Util::NetworkDevice::Cisco_ios::Facts do
       "memorysize" => "983008K",
       "processor" => "R7000",
       "hardwarerevision" => "1.4"
-    }      
+    },
+    "cisco WS-C4507R+E (MPC8548) processor (revision 12) with 524288K bytes of memory." => {
+      "canonicalized_hardwaremodel" => "c4500",
+      "hardwaremodel" => "WS-C4507R+E",
+      "memorysize" => "524288K",
+      "processor" => "MPC8548",
+      "hardwarerevision" => "12"
+    }
   }.each do |ver, expected|
     it "should parse show ver output for hardware device facts" do
       @transport.stubs(:command).with("sh ver", {:cache => true, :noop => false}).returns(<<eos)

@@ -43,7 +43,7 @@ class Puppet::Util::NetworkDevice::Cisco_ios::Fact
 
   def canonicalize_hardwaremodel(hardwaremodel)
     hardwaremodels = {
-      'c4500' => %w{WS-C4506-E},
+      'c4500' => %w{WS-C4506-E WS-C4507R+E},
       'c3750' => %w{WS-C3750-24TS WS-C3750-24PS WS-C3750G-24TS-1U WS-C3750G-24PS WS-C3750-24TS-S WS-C3750-24P WS-C3750-48TS WS-C3750G-24PS-S WS-C3750E-24PD},
       'c3560' => %w{WS-C3560-12PC-S},
       'c2960' => %w{WS-C2960G-48TC-L WS-C2960-24TC-L WS-C2960G-24TC-L},
